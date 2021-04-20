@@ -48,4 +48,19 @@ router.get("/addpost", function (req, res, next) {
   res.render("addpost");
 });
 
+router.post("/addpost", function (req, res, next) {
+  console.log("inside addpost post method");
+  // get image data as well
+  // save post to db
+
+  console.log(req.body[2].textType);
+  console.log(req.body[2].fileName);
+  console.log(req.body[2].width);
+
+  // CAUSES TOO MUCH PROBLEM TOO LARGE DATA FOR IMAGE
+  // console.log(req.body);
+
+  res.redirect("/addpost");
+});
+
 module.exports = router;

@@ -12,6 +12,8 @@ addImg.addEventListener("click", function (e) {
   createImageAdder();
 });
 
+let imgFiles = [];
+
 function createAdder() {
   let adderContainer = document.createElement("div");
   adderContainer.classList.add("rich-text-container");
@@ -54,6 +56,8 @@ function createAdder() {
 }
 
 function createImageAdder() {
+  let fileId = generateGuid();
+
   let imgContainer = document.createElement("div");
   imgContainer.classList.add("img-container");
 
@@ -69,6 +73,9 @@ function createImageAdder() {
   delButton.innerText = "DELETE";
   delButton.addEventListener("click", function (e) {
     container.removeChild(imgContainer);
+    imgFiles = imgFiles.filter((f) => f.id !== fileId);
+    console.log("removed the file: " + fileId);
+    console.log(imgFiles);
   });
   overlay.appendChild(delButton);
 
@@ -80,6 +87,22 @@ function createImageAdder() {
     let reader = new FileReader();
     reader.onload = function (evt) {
       img.src = evt.target.result;
+      // upload photo to server
+      let fileExt = getFileExtFromString(fileInput.files[0].name);
+      let fileNewPath = `${fileId}.${fileExt}`;
+      let imgWidth = getImageSize(sizeOptions.value);
+
+      imgFiles.push({
+        id: fileId,
+        filePath: fileNewPath,
+        data: evt.target.result,
+        width: imgWidth,
+      });
+
+      console.log("added file: " + fileId);
+      console.log(imgFiles);
+
+      console.log(fileNewPath);
     };
     reader.readAsDataURL(fileInput.files[0]);
   });
@@ -98,27 +121,37 @@ function createImageAdder() {
     sizeOptions.appendChild(sizeOption);
   });
   sizeOptions.addEventListener("input", function (e) {
-    let imgSize = 920;
-    switch (sizeOptions.value) {
-      case "sm":
-        imgSize = "400px";
-        break;
-      case "md":
-        imgSize = "720px";
-        break;
-      case "lg":
-        imgSize = "920px";
-        break;
-      default:
-        break;
-    }
+    let imgSize = getImageSize(sizeOptions.value);
     imgContainer.style.maxWidth = imgSize;
+    imgFiles.forEach((i) => {
+      if (i.id === fileId) {
+        i.width = imgSize;
+      }
+    });
   });
   overlay.appendChild(sizeOptions);
 
   imgContainer.appendChild(overlay);
 
   container.insertBefore(imgContainer, newItem);
+}
+
+function getImageSize(sizeString) {
+  let imgSize = "920px";
+  switch (sizeString) {
+    case "sm":
+      imgSize = "400px";
+      break;
+    case "md":
+      imgSize = "720px";
+      break;
+    case "lg":
+      imgSize = "920px";
+      break;
+    default:
+      break;
+  }
+  return imgSize;
 }
 
 let btnSave = document.querySelector(".save");
@@ -133,13 +166,14 @@ btnSave.addEventListener("click", function (e) {
     });
   }
 
+  let imgCounter = 0;
+
   for (let i = 0; i < container.childNodes.length; i++) {
     let node = container.childNodes[i];
     if (
       node.classList !== undefined &&
       node.classList.contains("rich-text-container")
     ) {
-      console.log(node);
       let content = node.querySelector("textarea:last-of-type").value;
       let textType = node.querySelector("select").value;
 
@@ -149,9 +183,53 @@ btnSave.addEventListener("click", function (e) {
           content: content,
         });
       }
+    } else if (
+      node.classList !== undefined &&
+      node.classList.contains("img-container")
+    ) {
+      elems.push({
+        textType: "image",
+        fileName: imgFiles[imgCounter].filePath,
+        data: imgFiles[imgCounter].data,
+        width: imgFiles[imgCounter].width,
+      });
+      imgCounter++;
     }
   }
 
-  // TODO: post elements to save
-  console.log(elems);
+  postJson("/addpost", elems);
 });
+
+function postJson(path, jsonData) {
+  let form = document.createElement("form");
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", path, true);
+  xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+
+  xhr.send(JSON.stringify(jsonData));
+
+  xhr.onloadend = function () {
+    window.location.replace("/addpost");
+  };
+}
+
+function generateGuid() {
+  var result, i, j;
+  result = "";
+  for (j = 0; j < 32; j++) {
+    if (j == 8 || j == 12 || j == 16 || j == 20) result = result + "-";
+    i = Math.floor(Math.random() * 16)
+      .toString(16)
+      .toUpperCase();
+    result = result + i;
+  }
+  return result;
+}
+
+function getFileExtFromString(filename) {
+  return (
+    filename.substring(filename.lastIndexOf(".") + 1, filename.length) ||
+    filename
+  );
+}
