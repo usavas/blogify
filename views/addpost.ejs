@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Post</title>
+    <link rel="stylesheet" href="css/addpost.css" />
+  </head>
+  <body>
+    <%- include('partials/header'); -%>
+
+    <aside>
+      <div class="container">
+        <h4>Menu</h4>
+        <form action="/createBlog" method="POST">
+          <button class="save">SAVE & UPLOAD</button>
+        </form>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <div class="container">
+        <div class="header-container">
+          <textarea
+            class="rich-text text-h1"
+            name="rich-text"
+            id="rich-text"
+            rows="1"
+            autocomplete="off"
+            placeholder="Page Header"
+            autofocus
+          ></textarea>
+        </div>
+
+        <div class="adder-container">
+          <div class="new-item">
+            <span class="add">Text+</span>
+          </div>
+
+          <div class="new-item">
+            <span class="add-img">Img+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="javascripts/jqueryautoresize.js"></script>
+    <script src="javascripts/addpost.js"></script>
+  </body>
+</html>

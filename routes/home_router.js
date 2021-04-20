@@ -44,4 +44,8 @@ router.get("/privacy", function (req, res, next) {
   res.render("privacy");
 });
 
+router.get("/addpost", function (req, res, next) {
+  res.render("addpost");
+});
+
 module.exports = router;

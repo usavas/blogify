@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .adder-container {
+        display: flex;
+        align-self: center;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .new-item {
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .add {
+        font-size: 1.6rem;
+        background-color: #11446684;
+        color: white;
+        border-radius: 20%;
+        text-align: center;
+        display: inline-block;
+        line-height: 2rem;
+        padding: 1.2rem 1.2rem;
+        user-select: none;
+      }
+
+      .add-img {
+        font-size: 1.6rem;
+        background-color: bisque;
+        display: inline-block;
+        padding: 1.2rem;
+        border-radius: 20%;
+        user-select: none;
+      }
+
+      .rich-text-container {
+        margin: 2rem 1rem;
+        text-align: center;
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+        gap: 0.4rem;
+      }
+
+      .rich-text {
+        font-size: 1rem;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #3c3c3c;
+        resize: none;
+        outline: none;
+      }
+
+      .header-container {
+        margin: 2rem 1rem;
+        align-items: baseline;
+      }
+
+      .text-type {
+        padding: 0.4rem;
+        font-size: 1.2rem;
+        border-radius: 0.2rem;
+      }
+
+      .del-button {
+        cursor: pointer;
+        padding: 0.6rem;
+        font-size: 1.2rem;
+        background-color: red;
+        color: white;
+        outline: none;
+        border: none;
+        border-radius: 0.2rem;
+      }
+
+      .save {
+        cursor: pointer;
+        padding: 0.6rem;
+        font-size: 1.2rem;
+        background-color: green;
+        color: white;
+        outline: none;
+        border: none;
+        border-radius: 0.2rem;
+      }
+
+      .text-p {
+        font-size: 1rem;
+      }
+      .text-h1 {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+      .text-h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+      }
+      .text-h3 {
+        font-size: 1.6rem;
+        font-weight: bold;
+      }
+      .text-h4 {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .img-container {
+        margin: 1rem auto;
+        max-width: 920px;
+        position: relative;
+      }
+
+      .wide-img {
+        margin: 0 auto;
+        width: 100%;
+        height: auto;
+        border-radius: 0.4rem;
+        display: block;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        transition: 0.2s ease;
+        background-color: #008cba22;
+        visibility: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .img-container:hover .overlay {
+        visibility: visible;
+      }
+
+      .del-img {
+        cursor: pointer;
+        padding: 0.6rem;
+        font-size: 1.2rem;
+        background-color: red;
+        color: white;
+        outline: none;
+        border: none;
+        border-radius: 0.2rem;
+      }
+      .file-input {
+        padding: 0.6rem;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header-container">
+      <textarea
+        class="rich-text text-h1"
+        name="rich-text"
+        id="rich-text"
+        rows="1"
+        autocomplete="off"
+        placeholder="Page Header"
+        autofocus
+      ></textarea>
+    </div>
+
+    <div class="adder-container">
+      <div class="new-item">
+        <span class="add">Text+</span>
+      </div>
+
+      <div class="new-item">
+        <span class="add-img">Img+</span>
+      </div>
+    </div>
+
+    <form action="/createBlog" method="POST">
+      <button class="save">save</button>
+    </form>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="../public/javascripts/jqueryautoresize.js"></script>
+
+    <script>
+      let body = document.querySelector("body");
+      let newItem = document.querySelector(".adder-container");
+      let add = document.querySelector(".add");
+      let addImg = document.querySelector(".add-img");
+
+      add.addEventListener("click", function () {
+        createAdder();
+      });
+      add.click();
+
+      addImg.addEventListener("click", function (e) {
+        createImageAdder();
+      });
+
+      function createAdder() {
+        let adderContainer = document.createElement("div");
+        adderContainer.classList.add("rich-text-container");
+
+        let textarea = document.createElement("textarea");
+        textarea.classList.add("rich-text");
+        textarea.setAttribute("rows", "1");
+        textarea.setAttribute("autocomplete", "off");
+        textarea.setAttribute("placeholder", "Enter your content...");
+        adderContainer.appendChild(textarea);
+        $(function () {
+          $("textarea").autoResize();
+        });
+
+        let select = document.createElement("select");
+        select.classList.add("text-type");
+        const textTypes = ["p", "h1", "h2", "h3", "h4"];
+        textTypes.forEach((e) => {
+          let option = document.createElement("option");
+          option.value = e;
+          option.innerText = e;
+          select.appendChild(option);
+        });
+        select.addEventListener("change", function () {
+          textTypes.forEach((t) => textarea.classList.remove("text-" + t));
+          let type = select.options[select.selectedIndex].text;
+          textarea.classList.add("text-" + type);
+        });
+        adderContainer.appendChild(select);
+
+        let delButton = document.createElement("button");
+        delButton.classList.add("del-button");
+        delButton.innerText = "Del";
+        delButton.addEventListener("click", function (e) {
+          body.removeChild(adderContainer);
+        });
+        adderContainer.appendChild(delButton);
+
+        body.insertBefore(adderContainer, newItem);
+      }
+
+      function createImageAdder() {
+        let imgContainer = document.createElement("div");
+        imgContainer.classList.add("img-container");
+
+        let img = document.createElement("img");
+        img.classList.add("wide-img");
+        img.src = "placeholder-img.png";
+        imgContainer.appendChild(img);
+
+        let overlay = document.createElement("div");
+        overlay.classList.add("overlay");
+        let delButton = document.createElement("button");
+        delButton.classList.add("del-img");
+        delButton.innerText = "DELETE";
+        delButton.addEventListener("click", function (e) {
+          body.removeChild(imgContainer);
+        });
+        overlay.appendChild(delButton);
+
+        let fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.classList.add("file-input");
+        fileInput.accept = "image/*,.pdf";
+        fileInput.addEventListener("input", function (e) {
+          console.log(fileInput.files[0]);
+          img.src = fileInput.files[0].name;
+        });
+        overlay.appendChild(fileInput);
+
+        imgContainer.appendChild(overlay);
+
+        body.insertBefore(imgContainer, newItem);
+      }
+
+      let btnSave = document.querySelector(".save");
+      btnSave.addEventListener("click", function (e) {
+        e.preventDefault();
+        let elems = [];
+        let pageHeader = document.querySelector(".header-container .rich-text");
+        if (pageHeader.value.trim() !== "") {
+          elems.push({
+            textType: "h1",
+            content: pageHeader.value.trim(),
+          });
+        }
+
+        for (let i = 0; i < body.childNodes.length; i++) {
+          let node = body.childNodes[i];
+          if (
+            node.classList !== undefined &&
+            node.classList.contains("rich-text-container")
+          ) {
+            console.log(node);
+            let content = node.querySelector("textarea:last-of-type").value;
+            let textType = node.querySelector("select").value;
+
+            if (content.trim() !== "") {
+              elems.push({
+                textType: textType,
+                content: content,
+              });
+            }
+          }
+        }
+
+        // TODO: post elements to save
+        console.log(elems);
+      });
+    </script>
+  </body>
+</html>
