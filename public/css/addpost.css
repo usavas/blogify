@@ -200,6 +200,12 @@ aside h4 {
     border-radius: 0.2rem;
 }
 
+.size-options {
+    padding: 0.4rem;
+    font-size: 1.2rem;
+    border-radius: 0.2rem;
+}
+
 .del-button {
     cursor: pointer;
     padding: 0.6rem;
@@ -247,7 +253,7 @@ aside h4 {
 }
 
 .img-container {
-    margin: 1rem auto;
+    margin: 2rem auto;
     max-width: 920px;
     position: relative;
 }
@@ -269,12 +275,13 @@ aside h4 {
     height: 100%;
     width: 100%;
     transition: 0.2s ease;
-    background-color: #008cba22;
+    background-color: #3c3c3c88;
     visibility: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    padding: 1rem;
 }
 
 .img-container:hover .overlay {
@@ -295,6 +302,8 @@ aside h4 {
 .file-input {
     padding: 0.6rem;
     font-size: 1.2rem;
+    color: white;
+    /*TODO: style this*/
 }
 
 /* END MAIN CONTENT */

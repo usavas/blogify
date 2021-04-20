@@ -77,10 +77,44 @@ function createImageAdder() {
   fileInput.classList.add("file-input");
   fileInput.accept = "image/*,.pdf";
   fileInput.addEventListener("input", function (e) {
-    console.log(fileInput.files[0]);
-    img.src = fileInput.files[0].name;
+    let reader = new FileReader();
+    reader.onload = function (evt) {
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(fileInput.files[0]);
   });
   overlay.appendChild(fileInput);
+
+  let sizeOptions = document.createElement("select");
+  sizeOptions.classList.add("size-options");
+  let sizes = ["sm", "md", "lg"];
+  sizes.forEach((s) => {
+    let sizeOption = document.createElement("option");
+    sizeOption.value = s;
+    sizeOption.innerText = s;
+    if (s === "lg") {
+      sizeOption.selected = true;
+    }
+    sizeOptions.appendChild(sizeOption);
+  });
+  sizeOptions.addEventListener("input", function (e) {
+    let imgSize = 920;
+    switch (sizeOptions.value) {
+      case "sm":
+        imgSize = "400px";
+        break;
+      case "md":
+        imgSize = "720px";
+        break;
+      case "lg":
+        imgSize = "920px";
+        break;
+      default:
+        break;
+    }
+    imgContainer.style.maxWidth = imgSize;
+  });
+  overlay.appendChild(sizeOptions);
 
   imgContainer.appendChild(overlay);
 
