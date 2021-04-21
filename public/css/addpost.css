@@ -124,8 +124,13 @@ aside {
     max-width: 16rem;
 }
 
-aside h4 {
-    margin: 1rem 0;
+aside * {
+    margin-top: 1rem;
+}
+
+.categories {
+    padding: 1rem .4rem;
+    font-size: 1rem;
 }
 
 /* ASIDE */

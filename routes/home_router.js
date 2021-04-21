@@ -6,7 +6,7 @@ const jimp = require("jimp");
 const fs = require("fs");
 const arrayBufferToBuffer = require("arraybuffer-to-buffer");
 
-posts = [
+const posts = [
   {
     id: 1,
     title: "What a wonderful life",
@@ -30,7 +30,12 @@ posts = [
   },
 ];
 
-categories = ["Lifestyle", "Home Design", "Technology", "Food for Thought"];
+const categories = [
+  "Lifestyle",
+  "Home Design",
+  "Technology",
+  "Food for Thought",
+];
 
 router.get("/", function (req, res, next) {
   res.render("home", { posts: posts, categories: categories });
@@ -50,7 +55,7 @@ router.get("/privacy", function (req, res, next) {
 });
 
 router.get("/addpost", function (req, res, next) {
-  res.render("addpost");
+  res.render("addpost", { categories: categories });
 });
 
 router.post("/addpost", function (req, res, next) {

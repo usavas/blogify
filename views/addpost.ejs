@@ -13,6 +13,14 @@
     <aside>
       <div class="container">
         <h4>Menu</h4>
+        <select class="categories" name="categories" id="categories">
+          <% for( let i = 0; i < categories.length; i++ ) { %>
+          <!---->
+          <option class="category" value="<%= categories[i] %>">
+            <%= categories[i] %>
+          </option>
+          <% } %>
+        </select>
         <form action="/createBlog" method="POST">
           <button class="save">SAVE & UPLOAD</button>
         </form>
