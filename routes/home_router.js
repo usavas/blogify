@@ -59,54 +59,26 @@ router.post("/addpost", function (req, res, next) {
   // get image data as well
   // save post to db
 
-  // console.log(req.body[2].textType);
-  // console.log(req.body[2].fileName);
-  // console.log(req.body[2].width);
-
   for (let i = 0; i < req.body.length; i++) {
     const elem = req.body[i];
+
     if ((elem.textType = "image")) {
-      // fs.access(uploadFilePath, (err) => {
-      //   if (err) {
-      //     fs.mkdirSync(uploadFilePath);
-      //   }
-      // });
-
-      // console.log(elem.data);
-
-      //convert incoming json like
-      // let buffer = Buffer.from(elem.data);
-
       let arrbuffer = new Uint8Array(JSON.parse(elem.data)).buffer;
       let buffer = arrayBufferToBuffer(arrbuffer);
 
-      // fs.writeFile(
-      //   __dirname + "/../data/uploads/upload.jpg",
-      //   buffer,
-      //   "binary",
-      //   function (err) {
-      //     if (err) {
-      //       console.log(err);
-      //     } else {
-      //       console.log("File saved");
-      //     }
-      //   }
-      // );
-
       sharp(buffer)
-        .resize(920, 600)
+        .resize({ width: elem.width })
         .toFile(__dirname + "/../data/uploads/" + elem.fileName, (err) => {
           if (err) {
             console.log(err);
           }
         });
+    } else {
+      // elem is text node (h1, h2, h3, h4, p)
     }
   }
 
-  // CAUSES TOO MUCH PROBLEM TOO LARGE DATA FOR IMAGE
-  // console.log(req.body);
-
-  // res.redirect("/addpost");
+  res.redirect("/addpost");
 });
 
 module.exports = router;
