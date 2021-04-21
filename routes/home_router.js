@@ -53,9 +53,9 @@ router.post("/addpost", function (req, res, next) {
   // get image data as well
   // save post to db
 
-  console.log(req.body[2].textType);
-  console.log(req.body[2].fileName);
-  console.log(req.body[2].width);
+  // console.log(req.body[2].textType);
+  // console.log(req.body[2].fileName);
+  // console.log(req.body[2].width);
 
   // CAUSES TOO MUCH PROBLEM TOO LARGE DATA FOR IMAGE
   // console.log(req.body);

@@ -30,7 +30,7 @@ function createAdder() {
 
   let select = document.createElement("select");
   select.classList.add("text-type");
-  const textTypes = ["p", "h1", "h2", "h3", "h4"];
+  const textTypes = ["p", "h2", "h3", "h4"];
   textTypes.forEach((e) => {
     let option = document.createElement("option");
     option.value = e;
@@ -187,13 +187,15 @@ btnSave.addEventListener("click", function (e) {
       node.classList !== undefined &&
       node.classList.contains("img-container")
     ) {
-      elems.push({
-        textType: "image",
-        fileName: imgFiles[imgCounter].filePath,
-        data: imgFiles[imgCounter].data,
-        width: imgFiles[imgCounter].width,
-      });
-      imgCounter++;
+      if (imgFiles.length > 0) {
+        elems.push({
+          textType: "image",
+          fileName: imgFiles[imgCounter].filePath,
+          data: imgFiles[imgCounter].data,
+          width: imgFiles[imgCounter].width,
+        });
+        imgCounter++;
+      }
     }
   }
 
