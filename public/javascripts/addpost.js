@@ -85,27 +85,35 @@ function createImageAdder() {
   fileInput.accept = "image/*,.pdf";
   fileInput.addEventListener("input", function (e) {
     let reader = new FileReader();
-    reader.onload = function (evt) {
+    reader.onloadend = function (evt) {
       img.src = evt.target.result;
-      // upload photo to server
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+
+    let buffReader = new FileReader();
+    buffReader.onloadend = function (evt) {
       let fileExt = getFileExtFromString(fileInput.files[0].name);
       let fileNewPath = `${fileId}.${fileExt}`;
       let imgWidth = getImageSize(sizeOptions.value);
 
+      //this is an object, convert this below to a buffer or arraybuffer
+      let dataString = JSON.stringify(
+        Array.from(new Uint8Array(buffReader.result))
+      );
+      console.log(typeof dataString);
+
       imgFiles.push({
         id: fileId,
         filePath: fileNewPath,
-        data: evt.target.result,
+        data: dataString,
         width: imgWidth,
       });
 
       console.log("added file: " + fileId);
-      console.log(imgFiles);
-
-      console.log(fileNewPath);
     };
-    reader.readAsDataURL(fileInput.files[0]);
+    buffReader.readAsArrayBuffer(fileInput.files[0]);
   });
+
   overlay.appendChild(fileInput);
 
   let sizeOptions = document.createElement("select");
@@ -120,9 +128,10 @@ function createImageAdder() {
     }
     sizeOptions.appendChild(sizeOption);
   });
+
   sizeOptions.addEventListener("input", function (e) {
     let imgSize = getImageSize(sizeOptions.value);
-    imgContainer.style.maxWidth = imgSize;
+    imgContainer.style.maxWidth = imgSize + "px";
     imgFiles.forEach((i) => {
       if (i.id === fileId) {
         i.width = imgSize;
@@ -137,16 +146,16 @@ function createImageAdder() {
 }
 
 function getImageSize(sizeString) {
-  let imgSize = "920px";
+  let imgSize = 920;
   switch (sizeString) {
     case "sm":
-      imgSize = "400px";
+      imgSize = 400;
       break;
     case "md":
-      imgSize = "720px";
+      imgSize = 720;
       break;
     case "lg":
-      imgSize = "920px";
+      imgSize = 920;
       break;
     default:
       break;
@@ -212,7 +221,7 @@ function postJson(path, jsonData) {
   xhr.send(JSON.stringify(jsonData));
 
   xhr.onloadend = function () {
-    window.location.replace("/addpost");
+    // window.location.replace("/addpost");
   };
 }
 
