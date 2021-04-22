@@ -40,9 +40,6 @@ header {
 /* END HEADER */
 
 /* TOP NAVIGATION */
-nav {
-    grid-area: nav;
-}
 
 nav .nav-container {
     background-color: #CCC;

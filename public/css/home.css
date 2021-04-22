@@ -26,13 +26,15 @@ body {
 
 .container {
     padding: 2rem 2rem;
-    /* width: 80%;
-    margin: 0 auto; */
 }
 
 a {
     text-decoration: none;
     color: var(--font-color);
+}
+
+p {
+    margin: 2rem 0;
 }
 
 /* HEADER */
@@ -43,9 +45,6 @@ header {
 /* END HEADER */
 
 /* TOP NAVIGATION */
-/* nav {
-    grid-area: nav;
-} */
 
 nav .nav-container {
     background-color: #CCC;
