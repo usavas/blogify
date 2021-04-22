@@ -109,7 +109,7 @@ nav ul a:hover:after {
     left: 0;
 }
 
-nav ul li:first-child a {
+nav ul li.active a {
     font-weight: bold;
     color: black;
 }

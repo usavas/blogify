@@ -4,10 +4,26 @@
       <div class="container">
         <div class="logo"><a href="#">Blogify</a></div>
         <ul>
-          <li><a href="/">home</a></li>
-          <li><a href="/about">about</a></li>
-          <li><a href="/privacy">privacy</a></li>
-          <li><a href="/addpost">add new post</a></li>
+          <li
+            class="<%= (locals.activePage && activePage === 'home') ? 'active' : '' %>"
+          >
+            <a href="/">home</a>
+          </li>
+          <li
+            class="<%= (locals.activePage && activePage === 'about') ? 'active' : '' %>"
+          >
+            <a href="/about">about</a>
+          </li>
+          <li
+            class="<%= (locals.activePage && activePage === 'privacy') ? 'active' : '' %>"
+          >
+            <a href="/privacy">privacy</a>
+          </li>
+          <li
+            class="<%= (locals.activePage && activePage === 'addpost') ? 'active' : '' %>"
+          >
+            <a href="/addpost">add new post</a>
+          </li>
         </ul>
       </div>
     </div>
