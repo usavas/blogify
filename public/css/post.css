@@ -17,11 +17,6 @@ body {
     margin: 0 auto;
     font-family: 'Open Sans';
     color: var(--font-color);
-
-    /* display: grid;
-    grid-template-areas: "header header header"
-        "side-nav main-content main-content"
-        "footer footer footer"; */
 }
 
 .container {
