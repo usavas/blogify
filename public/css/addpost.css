@@ -321,3 +321,32 @@ aside * {
             "main-content main-content main-content";
     }
 }
+
+@media screen and (max-width: 1200px) {
+    body {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 920px) {
+    body {
+        grid-template-areas: "header"
+            "side-nav"
+            "main-content"
+            "footer";
+    }
+
+    /* .container {
+        width: 100%;
+    } */
+}
+
+@media screen and (max-width: 720px) {
+    .nav-container .container {
+        flex-direction: column;
+    }
+
+    .logo {
+        margin-bottom: 2rem;
+    }
+}
