@@ -116,6 +116,10 @@ aside {
     grid-area: side-nav;
 }
 
+aside {
+    max-width: 16rem;
+}
+
 aside ul {
     list-style-type: none;
 }
