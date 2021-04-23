@@ -61,7 +61,6 @@ router.get("/addpost", function (req, res, next) {
 router.post("/addpost", function (req, res, next) {
   console.log("inside addpost post method");
   const uploadFilePath = "../data/uploads/";
-  // get image data as well
   // save post to db
 
   for (let i = 0; i < req.body.length; i++) {

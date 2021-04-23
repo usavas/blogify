@@ -3,7 +3,12 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const mongoDB = "mongodb://127.0.0.1/blogify";
+
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 var homeRouter = require("./routes/home_router");
 

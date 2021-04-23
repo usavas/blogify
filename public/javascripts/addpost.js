@@ -8,11 +8,10 @@ add.addEventListener("click", function () {
 });
 add.click();
 
+let imgFiles = [];
 addImg.addEventListener("click", function (e) {
   createImageAdder();
 });
-
-let imgFiles = [];
 
 function createAdder() {
   let adderContainer = document.createElement("div");
@@ -96,7 +95,6 @@ function createImageAdder() {
       let fileNewPath = `${fileId}.${fileExt}`;
       let imgWidth = getImageSize(sizeOptions.value);
 
-      //this is an object, convert this below to a buffer or arraybuffer
       let dataString = JSON.stringify(
         Array.from(new Uint8Array(buffReader.result))
       );
