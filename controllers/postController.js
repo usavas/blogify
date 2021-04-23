@@ -48,11 +48,13 @@ exports.post_new_post = async function (req, res, next) {
   console.log("inside addpost post method");
   const uploadFilePath = "../data/uploads/";
   // save post to db
+  let postBody = [];
 
-  let categories = getCategories();
+  console.log("body: ");
+  console.log(req.body);
 
-  for (let i = 0; i < req.body.length; i++) {
-    const elem = req.body[i];
+  for (let i = 0; i < req.body.elems.length; i++) {
+    const elem = req.body.elems[i];
 
     if (elem.textType === "image") {
       let arrbuffer = new Uint8Array(JSON.parse(elem.data)).buffer;
@@ -65,10 +67,35 @@ exports.post_new_post = async function (req, res, next) {
             console.log(err);
           }
         });
+
+      postBody.push({
+        textType: elem.textType,
+        fileName: elem.fileName,
+        width: elem.width,
+      });
     } else {
       console.log(elem.textType);
+      postBody.push({
+        textType: elem.textType,
+        content: elem.content,
+      });
     }
   }
 
-  res.redirect("/");
+  let postTitle = req.body.title;
+  let categoryId = req.body.categoryId;
+  let author = await Author.findOne({});
+  let authorId = author._id;
+
+  console.log(`post title: ${postTitle}`);
+  console.log(`post author id: ${authorId}`);
+
+  const postCreated = await Post.create({
+    title: postTitle,
+    author: authorId,
+    category: categoryId,
+    body: postBody,
+  });
+
+  res.redirect(`/post/${postCreated._id}`);
 };
