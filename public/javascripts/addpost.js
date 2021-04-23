@@ -13,6 +13,15 @@ addImg.addEventListener("click", function (e) {
   createImageAdder();
 });
 
+let categoryOptions = document.querySelector(".categories");
+let selectedCategoryId = categoryOptions.value;
+console.log(selectedCategoryId);
+
+categoryOptions.addEventListener("change", function (evt) {
+  console.log(categoryOptions.value);
+  selectedCategoryId = categoryOptions.value;
+});
+
 function createAdder() {
   let adderContainer = document.createElement("div");
   adderContainer.classList.add("rich-text-container");

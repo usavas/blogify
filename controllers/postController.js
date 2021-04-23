@@ -1,22 +1,31 @@
 const Post = require("../models/post");
 const Category = require("../models/category.js");
+const Author = require("../models/author");
 
 const sharp = require("sharp");
 const fs = require("fs");
 const arrayBufferToBuffer = require("arraybuffer-to-buffer");
 
-const categories = [
-  "Lifestyle",
-  "Home Design",
-  "Technology",
-  "Food for Thought",
-];
+// const categories = [
+//   "Lifestyle",
+//   "Home Design",
+//   "Technology",
+//   "Food for Thought",
+// ];
 
-exports.add_post = function (req, res, next) {
+async function getCategories() {
+  const categories = await Category.find({}).exec();
+  return categories;
+}
+
+exports.add_post = async function (req, res, next) {
+  const categories = await getCategories();
   res.render("addpost", { categories: categories });
 };
 
-exports.post_list = function (req, res, next) {
+exports.post_list = async function (req, res, next) {
+  const categories = await getCategories();
+
   Post.find()
     .sort([["date", "descending"]])
     .exec(function (err, posts) {
@@ -32,10 +41,12 @@ exports.get_post = function (req, res, next) {
   res.render("post", { post: post });
 };
 
-exports.post_new_post = function (req, res, next) {
+exports.post_new_post = async function (req, res, next) {
   console.log("inside addpost post method");
   const uploadFilePath = "../data/uploads/";
   // save post to db
+
+  let categories = getCategories();
 
   for (let i = 0; i < req.body.length; i++) {
     const elem = req.body[i];
