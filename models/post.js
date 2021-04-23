@@ -10,6 +10,9 @@ const PostSchema = new Schema({
   body: [{}],
 });
 
-const post = mongoose.model("Post", PostSchema);
+PostSchema.virtual("postRoute").get(function () {
+  return `/post/${this._id}`;
+});
 
+const post = mongoose.model("Post", PostSchema);
 module.exports = post;

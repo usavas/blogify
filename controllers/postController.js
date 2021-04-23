@@ -32,12 +32,15 @@ exports.post_list = async function (req, res, next) {
       if (err) {
         return next(err);
       }
+      console.log(posts[0].postRoute);
       res.render("home", { posts: posts, categories: categories });
     });
 };
 
-exports.get_post = function (req, res, next) {
-  let post = Post.findById(req.params.id);
+exports.get_post = async function (req, res, next) {
+  console.log(req.params);
+  let post = await Post.findById(req.params.id);
+  console.log(post.body);
   res.render("post", { post: post });
 };
 
