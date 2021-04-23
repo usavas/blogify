@@ -56,5 +56,5 @@ exports.post_new_post = function (req, res, next) {
     }
   }
 
-  res.redirect("/addpost");
+  res.redirect("/");
 };

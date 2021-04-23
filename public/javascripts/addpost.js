@@ -219,7 +219,7 @@ function postJson(path, jsonData) {
   xhr.send(JSON.stringify(jsonData));
 
   xhr.onloadend = function () {
-    window.location.replace("/addpost");
+    window.location.replace("/");
   };
 }
 
