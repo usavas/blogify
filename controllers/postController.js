@@ -52,13 +52,11 @@ exports.post_list = async function (req, res, next) {
 exports.get_post = async function (req, res, next) {
   console.log(req.params);
   let post = await Post.findById(req.params.id);
-  console.log(post.body);
+  console.log(post);
   res.render("post", { post: post });
 };
 
 exports.post_new_post = async function (req, res, next) {
-  console.log("inside addpost post method");
-  // save post to db
   let postBody = [];
 
   for (let i = 0; i < req.body.elems.length; i++) {
@@ -70,15 +68,16 @@ exports.post_new_post = async function (req, res, next) {
 
       sharp(buffer)
         .resize({ width: elem.width })
-        .toFile(__dirname + "/../data/uploads/" + elem.fileName, (err) => {
+        .toFile(__dirname + "/../data/uploads/" + elem.content, (err) => {
           if (err) {
             console.log(err);
           }
+          console.log(`image saved: ${elem.content}`);
         });
 
       postBody.push({
         textType: elem.textType,
-        fileName: elem.fileName,
+        content: elem.content,
         width: elem.width,
       });
     } else {

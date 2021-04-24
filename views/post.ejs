@@ -27,8 +27,9 @@
           <% } else if (post.body[i].textType === "h4") { %>
           <h4><%= post.body[i].content %></h4>
           <% } else if (post.body[i].textType === "image") {%>
-          <img src="<%= post.body[i].content %> " alt="" />
-          <p><%= post.body[i].content %></p>
+          <div class="image-container">
+            <img src="/<%= post.body[i].content %>" alt="" />
+          </div>
           <% } %> <% } %>
         </div>
       </div>

@@ -201,9 +201,10 @@ btnSave.addEventListener("click", function (e) {
       node.classList.contains("img-container")
     ) {
       if (imgFiles.length > 0) {
+        console.log("image length: " + imgFiles[imgCounter].data.length);
         elems.push({
           textType: "image",
-          fileName: imgFiles[imgCounter].filePath,
+          content: imgFiles[imgCounter].filePath,
           data: imgFiles[imgCounter].data,
           width: imgFiles[imgCounter].width,
         });
@@ -214,16 +215,14 @@ btnSave.addEventListener("click", function (e) {
 
   let post = {
     title: postTitle,
-    elems: elems,
     categoryId: selectedCategoryId,
+    elems: elems,
   };
 
   postJson("/addpost", post);
 });
 
 function postJson(path, jsonData) {
-  let form = document.createElement("form");
-
   var xhr = new XMLHttpRequest();
   xhr.open("POST", path, true);
   xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");

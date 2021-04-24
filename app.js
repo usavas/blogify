@@ -19,6 +19,7 @@ app.use(express.json({ limit: 52428800, extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "data/uploads/")));
 
 app.use("/", homeRouter);
 

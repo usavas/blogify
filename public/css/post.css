@@ -5,8 +5,18 @@
 
 .post-content h2,
 h3,
-h4 {
+h4,
+img {
     margin-top: 2rem;
+}
+
+.post-content .image-container {
+    display: flex;
+    justify-content: center;
+}
+
+.post-content img {
+    border-radius: 0.4rem;
 }
 
 body {
