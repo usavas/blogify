@@ -171,19 +171,16 @@ function getImageSize(sizeString) {
 }
 
 let btnSave = document.querySelector(".save");
+let postTitle = "No title";
 btnSave.addEventListener("click", function (e) {
   e.preventDefault();
   let elems = [];
   let pageHeader = document.querySelector(".header-container .rich-text");
   if (pageHeader.value.trim() !== "") {
-    elems.push({
-      textType: "h1",
-      content: pageHeader.value.trim(),
-    });
+    postTitle = pageHeader.value.trim();
   }
 
   let imgCounter = 0;
-
   for (let i = 0; i < container.childNodes.length; i++) {
     let node = container.childNodes[i];
     if (
@@ -215,7 +212,13 @@ btnSave.addEventListener("click", function (e) {
     }
   }
 
-  postJson("/addpost", elems);
+  let post = {
+    title: postTitle,
+    elems: elems,
+    categoryId: selectedCategoryId,
+  };
+
+  postJson("/addpost", post);
 });
 
 function postJson(path, jsonData) {

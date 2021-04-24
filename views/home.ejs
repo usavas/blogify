@@ -20,9 +20,14 @@
               <a href="<%=posts[i].postRoute%>">
                 <h2><%= posts[i].title %></h2>
               </a>
+              <i class="post-date">
+                <%= posts[i].date.toLocaleDateString() %>, <%=
+                posts[i].date.toLocaleDateString("default", {weekday: "long"})
+                %>
+              </i>
             </div>
             <div class="blog-post-content">
-              <p><%= posts[i].body[0] %></p>
+              <p><%= posts[i].excerpt %></p>
             </div>
           </div>
           <% } %>

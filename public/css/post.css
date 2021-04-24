@@ -2,3 +2,10 @@
     margin: 2rem 0;
     line-height: 1.8rem;
 }
+
+body {
+    display: grid;
+    grid-template-areas: "header header header"
+        "main-content main-content main-content"
+        "footer footer footer";
+}
