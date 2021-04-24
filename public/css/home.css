@@ -163,6 +163,16 @@ aside li a:hover {
     text-decoration: underline;
 }
 
+.post-card h2 {
+    display: inline;
+}
+
+.post-card .post-date {
+    display: inline;
+    margin-left: 1rem;
+
+}
+
 
 
 /* END MAIN CONTENT */
