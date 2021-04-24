@@ -25,17 +25,20 @@ exports.post_list = async function (req, res, next) {
         return next(err);
       }
       let postExerpts = posts.map(function (p) {
-        let paragraph = p.body.filter((b) => b.textType === "p")[0].content;
-        if (paragraph.length >= 360) {
-          paragraph = paragraph.substring(0, 360) + "...";
+        let pNodes = p.body.filter((b) => b.textType === "p");
+        if (pNodes.length > 0) {
+          let paragraph = pNodes[0].content;
+          if (paragraph.length >= 360) {
+            paragraph = paragraph.substring(0, 360) + "...";
+          }
+          return {
+            postId: p._id,
+            title: p.title,
+            postRoute: p.postRoute,
+            excerpt: paragraph,
+            date: p.date,
+          };
         }
-        return {
-          postId: p._id,
-          title: p.title,
-          postRoute: p.postRoute,
-          excerpt: paragraph,
-          date: p.date,
-        };
       });
       res.render("home", { posts: postExerpts, categories: categories });
     });
