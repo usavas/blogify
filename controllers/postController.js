@@ -3,22 +3,14 @@ const Category = require("../models/category.js");
 const Author = require("../models/author");
 
 const sharp = require("sharp");
-const fs = require("fs");
 const arrayBufferToBuffer = require("arraybuffer-to-buffer");
-
-// const categories = [
-//   "Lifestyle",
-//   "Home Design",
-//   "Technology",
-//   "Food for Thought",
-// ];
 
 async function getCategories() {
   const categories = await Category.find({}).exec();
   return categories;
 }
 
-exports.add_post = async function (req, res, next) {
+exports.add_post = async function (req, res) {
   const categories = await getCategories();
   res.render("addpost", { categories: categories });
 };
@@ -49,14 +41,14 @@ exports.post_list = async function (req, res, next) {
     });
 };
 
-exports.get_post = async function (req, res, next) {
+exports.get_post = async function (req, res) {
   console.log(req.params);
   let post = await Post.findById(req.params.id);
   console.log(post);
   res.render("post", { post: post });
 };
 
-exports.post_new_post = async function (req, res, next) {
+exports.post_new_post = async function (req, res) {
   let postBody = [];
 
   for (let i = 0; i < req.body.elems.length; i++) {

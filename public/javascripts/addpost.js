@@ -9,7 +9,7 @@ add.addEventListener("click", function () {
 add.click();
 
 let imgFiles = [];
-addImg.addEventListener("click", function (e) {
+addImg.addEventListener("click", function () {
   createImageAdder();
 });
 
@@ -17,7 +17,7 @@ let categoryOptions = document.querySelector(".categories");
 let selectedCategoryId = categoryOptions.value;
 console.log(selectedCategoryId);
 
-categoryOptions.addEventListener("change", function (evt) {
+categoryOptions.addEventListener("change", function () {
   console.log(categoryOptions.value);
   selectedCategoryId = categoryOptions.value;
 });
@@ -32,7 +32,9 @@ function createAdder() {
   textarea.setAttribute("autocomplete", "off");
   textarea.setAttribute("placeholder", "Enter your content...");
   adderContainer.appendChild(textarea);
+  // eslint-disable-next-line no-undef
   $(function () {
+    // eslint-disable-next-line no-undef
     $("textarea").autoResize();
   });
 
@@ -55,7 +57,7 @@ function createAdder() {
   let delButton = document.createElement("button");
   delButton.classList.add("del-button");
   delButton.innerText = "Del";
-  delButton.addEventListener("click", function (e) {
+  delButton.addEventListener("click", function () {
     container.removeChild(adderContainer);
   });
   adderContainer.appendChild(delButton);
@@ -79,7 +81,7 @@ function createImageAdder() {
   let delButton = document.createElement("button");
   delButton.classList.add("del-img");
   delButton.innerText = "DELETE";
-  delButton.addEventListener("click", function (e) {
+  delButton.addEventListener("click", function () {
     container.removeChild(imgContainer);
     imgFiles = imgFiles.filter((f) => f.id !== fileId);
     console.log("removed the file: " + fileId);
@@ -91,7 +93,7 @@ function createImageAdder() {
   fileInput.type = "file";
   fileInput.classList.add("file-input");
   fileInput.accept = "image/*,.pdf";
-  fileInput.addEventListener("input", function (e) {
+  fileInput.addEventListener("input", function () {
     let reader = new FileReader();
     reader.onloadend = function (evt) {
       img.src = evt.target.result;
@@ -99,7 +101,7 @@ function createImageAdder() {
     reader.readAsDataURL(fileInput.files[0]);
 
     let buffReader = new FileReader();
-    buffReader.onloadend = function (evt) {
+    buffReader.onloadend = function () {
       let fileExt = getFileExtFromString(fileInput.files[0].name);
       let fileNewPath = `${fileId}.${fileExt}`;
       let imgWidth = getImageSize(sizeOptions.value);
@@ -136,7 +138,7 @@ function createImageAdder() {
     sizeOptions.appendChild(sizeOption);
   });
 
-  sizeOptions.addEventListener("input", function (e) {
+  sizeOptions.addEventListener("input", function () {
     let imgSize = getImageSize(sizeOptions.value);
     imgContainer.style.maxWidth = imgSize + "px";
     imgFiles.forEach((i) => {

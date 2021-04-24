@@ -7,11 +7,11 @@ router.get("/post/:id", PostController.get_post);
 router.get("/addpost", PostController.add_post);
 router.post("/addpost", PostController.post_new_post);
 
-router.get("/about", function (req, res, next) {
+router.get("/about", function (req, res) {
   res.render("about");
 });
 
-router.get("/privacy", function (req, res, next) {
+router.get("/privacy", function (req, res) {
   res.render("privacy");
 });
 

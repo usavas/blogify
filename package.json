@@ -1,5 +1,5 @@
 {
-  "name": "blog---express---ejs",
+  "name": "blogify",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -17,5 +17,8 @@
     "mongoose": "^5.12.5",
     "morgan": "~1.9.1",
     "sharp": "^0.28.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.25.0"
   }
 }
