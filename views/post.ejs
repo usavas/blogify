@@ -17,9 +17,19 @@
           <h1><%=post.title%></h1>
         </div>
         <div class="post-content">
-          <% for(let i = 0; i < post.body.length; i++){ %>
+          <% for(let i = 0; i < post.body.length; i++){ %> <% if
+          (post.body[i].textType === "p") { %>
           <p><%= post.body[i].content %></p>
-          <% } %>
+          <% } else if (post.body[i].textType === "h2") {%>
+          <h2><%= post.body[i].content %></h2>
+          <% } else if (post.body[i].textType === "h3") {%>
+          <h3><%= post.body[i].content %></h3>
+          <% } else if (post.body[i].textType === "h4") { %>
+          <h4><%= post.body[i].content %></h4>
+          <% } else if (post.body[i].textType === "image") {%>
+          <img src="<%= post.body[i].content %> " alt="" />
+          <p><%= post.body[i].content %></p>
+          <% } %> <% } %>
         </div>
       </div>
     </div>
