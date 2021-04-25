@@ -4,17 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-     
-    </style>
-    <link rel="stylesheet" href="../public/css/register.css">
+    <title>Become an Author</title>
+    <link rel="stylesheet" href="/css/register.css" />
   </head>
   <body>
-    
     <div class="form-container">
       <div class="logo"><a href="#">Blogify</a><p>Register to become an author</p></div>
-      <form>
+      <form method="POST" action="/auth/register">
         <div class="form-group">
         <label for="name">Name</label>
         <input
@@ -53,8 +49,6 @@
       </div>
       <button type="submit" class="btn btn-primary">REGISTER</button>
     </div>
-
-
-    </body>
-    </html>
-    
+    </form>
+  </body>
+</html>

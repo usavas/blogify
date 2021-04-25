@@ -3,6 +3,7 @@
 
 :root {
     --font-color: #3c3c3c;
+    --background-color: #DDD;
 }
 
 * {
@@ -25,7 +26,7 @@ body {
 }
 
 .container {
-    padding: 2rem 2rem;
+    padding: 2rem 3rem;
 }
 
 a {
@@ -43,7 +44,8 @@ header {
 /* TOP NAVIGATION */
 
 nav .nav-container {
-    background-color: #CCC;
+    background-color: var(--background-color);
+    border-bottom-right-radius: 6rem;
     display: flex;
 }
 
@@ -148,7 +150,7 @@ aside li a:hover {
 /* MAIN CONTENT */
 .main-content {
     grid-area: main-content;
-    min-height: calc(100vh - 240px);
+    min-height: calc(100vh - 206px);
 }
 
 .post-card {
@@ -173,8 +175,6 @@ aside li a:hover {
 
 }
 
-
-
 /* END MAIN CONTENT */
 
 
@@ -182,7 +182,8 @@ aside li a:hover {
 /* FOOTER */
 footer {
     grid-area: footer;
-    background-color: #CCC;
+    border-top-left-radius: 6rem;
+    background-color: var(--background-color);
 }
 
 footer .container {
@@ -205,10 +206,6 @@ footer .container {
             "main-content"
             "footer";
     }
-
-    /* .container {
-        width: 100%;
-    } */
 }
 
 @media screen and (max-width: 720px) {

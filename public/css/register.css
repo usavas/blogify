@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Pacifico&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans";
+}
+
+.form-container {
+    height: 100vh;
+    max-width: 32rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.logo {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.logo a {
+    font-family: 'Pacifico';
+    text-decoration: none;
+    color: var(--font-color);
+}
+
+.logo p {
+    margin-top: .6rem;
+    font-size: .8rem;
+}
+
+form {
+    margin: 0 2rem;
+}
+
+.form-group {
+    margin: 1rem 0;
+}
+
+.form-group label {
+    display: block;
+    width: 100%;
+    font-weight: bolder;
+}
+
+.form-group input,
+button {
+    width: 100%;
+    margin-top: .4rem;
+    font-size: 1rem;
+    padding: .4rem;
+}
+
+form button {
+    border: none;
+    border-radius: 0.2rem;
+    padding: .6rem;
+    background-color: gray;
+    color: white;
+}
+
+form button:hover {
+    opacity: .9;
+}
+
+form button:active {
+    opacity: 1;
+}
