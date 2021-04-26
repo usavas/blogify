@@ -1,7 +1,23 @@
-let container = document.querySelector(".main-content .container");
-let newItem = document.querySelector(".adder-container");
-let add = document.querySelector(".add");
-let addImg = document.querySelector(".add-img");
+const container = document.querySelector(".main-content .container");
+const newItem = document.querySelector(".adder-container");
+const add = document.querySelector(".add");
+const addImg = document.querySelector(".add-img");
+
+const post = document.querySelector(".post-edit");
+if (post) {
+  console.log("EXISTS");
+  console.log(post);
+  //XHR request to get post details
+  // then iterate through its body elements
+
+  // post.body.forEach((e) => {
+  //   if (e.textType === "img") {
+  //     createImageAdder();
+  //   }
+  // });
+} else {
+  console.log("NOT EXISTS");
+}
 
 add.addEventListener("click", function () {
   createAdder();
@@ -71,13 +87,42 @@ function createImageAdder() {
   let imgContainer = document.createElement("div");
   imgContainer.classList.add("img-container");
 
-  let img = document.createElement("img");
-  img.classList.add("wide-img");
-  img.src = "images/placeholder-img.png";
+  let img = createImage("/images/placeholder-img.png");
   imgContainer.appendChild(img);
 
+  let overlay = createOverlay(imgContainer, fileId, img);
+  imgContainer.appendChild(overlay);
+
+  container.insertBefore(imgContainer, newItem);
+}
+
+function createImage(imagePath) {
+  let img = document.createElement("img");
+  img.classList.add("wide-img");
+  img.src = imagePath;
+  return img;
+}
+
+function createOverlay(imgContainer, fileId, img) {
   let overlay = document.createElement("div");
   overlay.classList.add("overlay");
+
+  let delButton = createDelButton(imgContainer, fileId);
+  overlay.appendChild(delButton);
+
+  let sizeOptionsContainer = createSizeOptionsContainer();
+  let sizeOptions = createSizeOptions(imgContainer, fileId);
+  sizeOptionsContainer.appendChild(sizeOptions);
+
+  let fileInput = createFileInput(img, fileId, sizeOptions);
+  overlay.appendChild(fileInput);
+
+  overlay.appendChild(sizeOptionsContainer);
+
+  return overlay;
+}
+
+function createDelButton(imgContainer, fileId) {
   let delButton = document.createElement("button");
   delButton.classList.add("del-img");
   delButton.innerText = "DELETE";
@@ -87,8 +132,11 @@ function createImageAdder() {
     console.log("removed the file: " + fileId);
     console.log(imgFiles);
   });
-  overlay.appendChild(delButton);
 
+  return delButton;
+}
+
+function createFileInput(img, fileId, sizeOptions) {
   let fileInput = document.createElement("input");
   fileInput.type = "file";
   fileInput.classList.add("file-input");
@@ -123,8 +171,10 @@ function createImageAdder() {
     };
     buffReader.readAsArrayBuffer(fileInput.files[0]);
   });
+  return fileInput;
+}
 
-  overlay.appendChild(fileInput);
+function createSizeOptionsContainer() {
   let sizeOptionsContainer = document.createElement("div");
   sizeOptionsContainer.classList.add("size-options-container");
 
@@ -134,6 +184,10 @@ function createImageAdder() {
 
   sizeOptionsContainer.appendChild(sizeDesc);
 
+  return sizeOptionsContainer;
+}
+
+function createSizeOptions(imgContainer, fileId) {
   let sizeOptions = document.createElement("select");
   sizeOptions.classList.add("size-options");
   let sizes = ["sm", "md", "lg"];
@@ -156,13 +210,8 @@ function createImageAdder() {
       }
     });
   });
-  sizeOptionsContainer.appendChild(sizeOptions);
 
-  overlay.appendChild(sizeOptionsContainer);
-
-  imgContainer.appendChild(overlay);
-
-  container.insertBefore(imgContainer, newItem);
+  return sizeOptions;
 }
 
 function getImageSize(sizeString) {
