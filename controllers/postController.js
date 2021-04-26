@@ -12,7 +12,28 @@ async function getCategories() {
 
 exports.add_post = async function (req, res) {
   const categories = await getCategories();
-  res.render("addpost", { categories: categories });
+
+  if (req.params.id) {
+    console.log(req.params.id);
+    Post.find({ _id: req.params.id }).exec((err, post) => {
+      if (err) {
+        console.log(err);
+      }
+      res.render("addpost", { post: post, categories: categories });
+    });
+  } else {
+    res.render("addpost", { categories: categories });
+  }
+};
+
+exports.delete_post = async function (req, res, next) {
+  Post.deleteOne({ _id: req.params.id }).exec((err) => {
+    if (err) {
+      console.log(err);
+      next();
+    }
+    res.redirect("/posts");
+  });
 };
 
 exports.posts = async function (req, res) {

@@ -24,16 +24,22 @@
           <td>
             <%= p.title %>
             <div class="edit-options">
-              <button data-id="" id="edit">Edit</button
-              ><button id="delete">Delete</button>
+              <form action="/addpost/<%= p._id %>" method="GET">
+                <button type="submit" class="edit">Edit</button>
+              </form>
+              <form method="GET" action="/deletepost/<%= p._id %>">
+                <button type="submit" class="delete">Delete</button>
+              </form>
             </div>
           </td>
           <td><%= p.author.name %></td>
           <td><%= p.category.category %></td>
-          <td>2021-12-12</td>
+          <td><%= p.date.toLocaleString() %></td>
         </tr>
         <% }) %>
       </table>
     </div>
+
+    <script src="javascripts/posts.js"></script>
   </body>
 </html>
