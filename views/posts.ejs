@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Posts</title>
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/posts.css" />
+  </head>
+  <body>
+    <%- include('partials/header', {activePage: "posts"}) -%>
+    <div class="main-content">
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Category</th>
+          <th>Date</th>
+        </tr>
+
+        <% posts.forEach(p => { %>
+        <tr>
+          <td>
+            <%= p.title %>
+            <div class="edit-options">
+              <button data-id="" id="edit">Edit</button
+              ><button id="delete">Delete</button>
+            </div>
+          </td>
+          <td><%= p.author.name %></td>
+          <td><%= p.category.category %></td>
+          <td>2021-12-12</td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+  </body>
+</html>

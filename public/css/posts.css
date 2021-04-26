@@ -1,0 +1,30 @@
+.main-content {
+    margin: 2rem 3rem;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.edit-options {
+    display: flex;
+    gap: 0.6rem;
+    visibility: hidden;
+}
+
+tr:hover .edit-options {
+    visibility: visible;
+}

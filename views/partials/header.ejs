@@ -21,10 +21,21 @@
           >
             <a href="/privacy">privacy</a>
           </li> -->
+
           <li
             class="<%= (locals.activePage && activePage === 'addpost') ? 'active' : '' %>"
           >
-            <a href="/addpost">add new post</a>
+            <a href="/addpost">add post</a>
+          </li>
+          <li
+            class="<%= (locals.activePage && activePage === 'posts') ? 'active' : '' %>"
+          >
+            <a href="/posts">posts</a>
+          </li>
+          <li
+            class="<%= (locals.activePage && activePage === 'categories') ? 'active' : '' %>"
+          >
+            <a href="/categories">categories</a>
           </li>
           <li
             class="<%= (locals.activePage && activePage === 'register') ? 'active' : '' %>"

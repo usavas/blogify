@@ -15,6 +15,14 @@ exports.add_post = async function (req, res) {
   res.render("addpost", { categories: categories });
 };
 
+exports.posts = async function (req, res) {
+  const posts = await Post.find()
+    .sort([["date", "descending"]])
+    .populate("author")
+    .populate("category");
+  res.render("posts", { posts: posts });
+};
+
 exports.post_list = async function (req, res, next) {
   const categories = await getCategories();
 
