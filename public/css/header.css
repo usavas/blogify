@@ -1,0 +1,100 @@
+.container {
+    padding: 2rem 3rem;
+}
+
+nav .nav-container {
+    background-color: var(--background-color);
+    border-bottom-right-radius: 6rem;
+    display: flex;
+}
+
+nav .container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Pacifico';
+    font-size: 2rem;
+}
+
+.logo a {
+    text-decoration: none;
+    color: var(--font-color);
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav li {
+    display: inline;
+    padding-right: 2rem;
+}
+
+nav li:last-child {
+    padding-right: 0;
+}
+
+nav ul a {
+    font-size: .8rem;
+    text-decoration: none;
+    color: var(--font-color);
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+nav ul a:after {
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #3c3c3c;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+
+nav ul a:hover:after {
+    width: 100%;
+    left: 0;
+}
+
+nav ul li.active a {
+    font-weight: bold;
+    color: black;
+}
+
+@media screen and (max-width: 1200px) {
+    /* body {
+        width: 100%;
+    } */
+}
+
+@media screen and (max-width: 920px) {
+    .nav-container .container {
+        flex-direction: column;
+    }
+
+    .logo {
+        margin-bottom: 2rem;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .nav-container ul {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-container li {
+        margin: .4rem 0;
+        padding: 0;
+    }
+}
