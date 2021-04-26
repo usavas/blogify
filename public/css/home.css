@@ -70,6 +70,7 @@ aside li a:hover {
 
 .post-card {
     margin-bottom: 2rem;
+    font-size: 1rem;
 }
 
 .post-card .blog-post-header {
@@ -87,7 +88,6 @@ aside li a:hover {
 .post-card .post-date {
     display: inline;
     margin-left: 1rem;
-
 }
 
 /* END MAIN CONTENT */

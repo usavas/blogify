@@ -143,7 +143,7 @@ aside * {
 }
 
 .add {
-    font-size: 1.2rem;
+    font-size: 1rem;
     border: 1px solid #3c3c3c;
     border-radius: 0.6rem;
     text-align: center;
@@ -154,7 +154,7 @@ aside * {
 }
 
 .add-img {
-    font-size: 1.2rem;
+    font-size: 1rem;
     border: 1px solid #3c3c3c;
     display: inline-block;
     line-height: 1.2rem;
@@ -187,12 +187,6 @@ aside * {
 }
 
 .text-type {
-    padding: 0.4rem;
-    font-size: 1.2rem;
-    border-radius: 0.2rem;
-}
-
-.size-options {
     padding: 0.4rem;
     font-size: 1.2rem;
     border-radius: 0.2rem;
@@ -283,7 +277,6 @@ aside * {
 .del-img {
     cursor: pointer;
     padding: 0.6rem;
-    font-size: 1.2rem;
     background-color: red;
     color: white;
     outline: none;
@@ -291,11 +284,47 @@ aside * {
     border-radius: 0.2rem;
 }
 
-.file-input {
-    padding: 0.6rem;
-    font-size: 1.2rem;
+.del-img:active {
+    background-color: #ff6057;
+}
+
+
+.file-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.file-input::before {
+    user-select: none;
+    -webkit-user-select: none;
+    content: 'Select some files';
+    display: inline-block;
+    background: green;
     color: white;
-    /*TODO: style this*/
+    text-transform: uppercase;
+    border-radius: 0.2rem;
+    padding: .6rem;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.file-input:hover::before {
+    border-color: black;
+}
+
+.file-input:active::before {
+    background: lightgreen;
+}
+
+.size-options-container .size-option-desc {
+    margin-right: .4rem;
+    color: white;
+}
+
+.size-options {
+    padding: 0.4rem;
+    font-size: 1.2rem;
+    border-radius: 0.2rem;
 }
 
 /* END MAIN CONTENT */
