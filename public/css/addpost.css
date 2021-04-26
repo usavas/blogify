@@ -346,6 +346,17 @@ aside * {
         flex-direction: column;
     }
 
+    .overlay {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .overlay * {
+        font-size: .6rem;
+        padding: .4rem;
+        margin: 0;
+    }
+
     .logo {
         margin-bottom: 2rem;
     }

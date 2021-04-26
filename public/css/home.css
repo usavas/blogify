@@ -207,9 +207,7 @@ footer .container {
             "main-content"
             "footer";
     }
-}
 
-@media screen and (max-width: 720px) {
     .nav-container .container {
         flex-direction: column;
     }
@@ -217,4 +215,21 @@ footer .container {
     .logo {
         margin-bottom: 2rem;
     }
+}
+
+@media screen and (max-width: 720px) {
+    .nav-container ul {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-container li {
+        margin: .4rem 0;
+        padding: 0;
+    }
+
+    /* .nav-container li a {
+        margin: .4rem 0;
+    } */
 }
