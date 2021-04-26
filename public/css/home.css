@@ -80,6 +80,7 @@ nav li:last-child {
 }
 
 nav ul a {
+    font-size: .8rem;
     text-decoration: none;
     color: var(--font-color);
     letter-spacing: 2px;
