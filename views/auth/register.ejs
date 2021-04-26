@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/register.css" />
   </head>
   <body>
+    <script defer src="/javascripts/registervalidator.js"></script>
     <div class="form-container">
       <div class="logo"><a href="#">Blogify</a><p>Register to become an author</p></div>
       <form method="POST" action="/auth/register">
@@ -29,6 +30,7 @@
         class="form-control"
         id="email"
         placeholder="Enter email"
+        required
         />
       </div>
       <div class="form-group">
@@ -39,6 +41,7 @@
         class="form-control"
         id="password"
         placeholder="Password"
+        required
         />
       </div>
       <div class="form-group">
@@ -46,11 +49,13 @@
         <input
         type="password"
         class="form-control"
-        id="passwd-confirm"
+        id="password-confirm"
         placeholder="Confirm your password"
+        required
         />
       </div>
-      <button type="submit" class="btn btn-primary">REGISTER</button>
+      <div class="error-container"></div>
+      <button type="submit" id="submit" class="btn btn-primary">REGISTER</button>
     </div>
     </form>
   </body>

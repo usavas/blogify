@@ -71,3 +71,7 @@ form button:hover {
 form button:active {
     opacity: 1;
 }
+
+.error-container .error-message {
+    color: red;
+}

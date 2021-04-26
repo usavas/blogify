@@ -55,8 +55,9 @@ function createInitialData(db) {
 
     await Author.deleteMany({});
     await Author.create({
-      first_name: "Jane",
-      last_name: "Herakles",
+      name: "Jane Herakles",
+      email: "savas@blogify.com",
+      passwd: "1234",
     });
 
     const author = await Author.findOne({});

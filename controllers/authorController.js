@@ -14,8 +14,10 @@ module.exports.registerUser = function (req, res, next) {
   });
 
   Author.create(author, function (err) {
-    console.log(err);
-    next();
+    if (err) {
+      console.log(err);
+      next();
+    }
   });
 
   res.redirect("/");
