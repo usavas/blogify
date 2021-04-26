@@ -27,8 +27,8 @@
       </div>
     </aside>
 
-    <% if (locals.post) { %>
-    <div class="post-edit"></div>
+    <% if (locals.postId) { %>
+    <div class="post-edit" data-id="<%= locals.postId %>"></div>
     <% } %>
 
     <div class="main-content">

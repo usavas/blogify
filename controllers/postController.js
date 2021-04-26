@@ -14,13 +14,7 @@ exports.add_post = async function (req, res) {
   const categories = await getCategories();
 
   if (req.params.id) {
-    console.log(req.params.id);
-    Post.find({ _id: req.params.id }).exec((err, post) => {
-      if (err) {
-        console.log(err);
-      }
-      res.render("addpost", { post: post, categories: categories });
-    });
+    res.render("addpost", { postId: req.params.id, categories: categories });
   } else {
     res.render("addpost", { categories: categories });
   }
@@ -83,6 +77,12 @@ exports.get_post = async function (req, res) {
   let post = await Post.findById(req.params.id);
   console.log(post);
   res.render("post", { post: post });
+};
+
+exports.get_post_info = async function (req, res, next) {
+  const postId = req.params.id;
+  const post = await Post.findOne({ _id: postId });
+  res.send(post);
 };
 
 exports.post_new_post = async function (req, res) {

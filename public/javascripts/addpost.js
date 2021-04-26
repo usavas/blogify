@@ -3,12 +3,20 @@ const newItem = document.querySelector(".adder-container");
 const add = document.querySelector(".add");
 const addImg = document.querySelector(".add-img");
 
-const post = document.querySelector(".post-edit");
-if (post) {
+const postData = document.querySelector(".post-edit");
+if (postData) {
   console.log("EXISTS");
-  console.log(post);
   //XHR request to get post details
   // then iterate through its body elements
+
+  const postId = postData.dataset.id;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", `/postinfo/${postId}`, true);
+  xhr.send("");
+  xhr.onloadend = function () {
+    const post = xhr.response;
+    console.log(post);
+  };
 
   // post.body.forEach((e) => {
   //   if (e.textType === "img") {
@@ -31,7 +39,6 @@ addImg.addEventListener("click", function () {
 
 let categoryOptions = document.querySelector(".categories");
 let selectedCategoryId = categoryOptions.value;
-console.log(selectedCategoryId);
 
 categoryOptions.addEventListener("change", function () {
   console.log(categoryOptions.value);
