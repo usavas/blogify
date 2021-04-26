@@ -1,12 +1,12 @@
 const Post = require("../models/post");
-const Category = require("../models/category.js");
+const CategoryService = require("../services/categoryService");
 const Author = require("../models/author");
 
 const sharp = require("sharp");
 const arrayBufferToBuffer = require("arraybuffer-to-buffer");
 
 async function getCategories() {
-  const categories = await Category.find({}).exec();
+  const categories = await CategoryService.getCategories();
   return categories;
 }
 
@@ -24,21 +24,26 @@ exports.post_list = async function (req, res, next) {
       if (err) {
         return next(err);
       }
+
+      let excerpt = "No text content";
       let postExerpts = posts.map(function (p) {
         let pNodes = p.body.filter((b) => b.textType === "p");
         if (pNodes.length > 0) {
           let paragraph = pNodes[0].content;
           if (paragraph.length >= 360) {
-            paragraph = paragraph.substring(0, 360) + "...";
+            excerpt = paragraph.substring(0, 360) + "...";
+          } else {
+            excerpt = paragraph;
           }
-          return {
-            postId: p._id,
-            title: p.title,
-            postRoute: p.postRoute,
-            excerpt: paragraph,
-            date: p.date,
-          };
         }
+
+        return {
+          postId: p._id,
+          title: p.title,
+          postRoute: p.postRoute,
+          excerpt: excerpt,
+          date: p.date,
+        };
       });
       res.render("home", { posts: postExerpts, categories: categories });
     });
@@ -63,6 +68,7 @@ exports.post_new_post = async function (req, res) {
 
       sharp(buffer)
         .resize({ width: elem.width })
+        .withMetadata()
         .toFile(__dirname + "/../data/uploads/" + elem.content, (err) => {
           if (err) {
             console.log(err);
@@ -89,15 +95,14 @@ exports.post_new_post = async function (req, res) {
   let author = await Author.findOne({});
   let authorId = author._id;
 
-  console.log(`post title: ${postTitle}`);
-  console.log(`post author id: ${authorId}`);
-
-  const postCreated = await Post.create({
+  const post = new Post({
     title: postTitle,
     author: authorId,
     category: categoryId,
     body: postBody,
   });
+
+  const postCreated = await Post.create(post);
 
   res.redirect(`/post/${postCreated._id}`);
 };

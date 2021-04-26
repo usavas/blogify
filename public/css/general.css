@@ -4,6 +4,7 @@
 :root {
     --font-color: #3c3c3c;
     --background-color: #DDD;
+    font-size: 14px;
 }
 
 * {

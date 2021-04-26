@@ -6,6 +6,7 @@ var logger = require("morgan");
 const mongo = require("./database/mongodb");
 var homeRouter = require("./routes/home_router");
 var authRouter = require("./routes/auth_router");
+var categoryRouter = require("./routes/category_router");
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, "data/uploads/")));
 
 app.use("/", homeRouter);
 app.use("/auth", authRouter);
+app.use("/categories", categoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
