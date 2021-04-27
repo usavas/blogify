@@ -86,10 +86,23 @@ exports.get_post_info = async function (req, res) {
 };
 
 exports.post_new_post = async function (req, res) {
+  const post = req.body;
+  console.log(post._id);
+
+  if (post._id) {
+    console.log("ID EXISTS: " + post._id);
+  } else {
+    const postAdd = await createNewPost(post);
+    const postCreated = await Post.create(postAdd);
+    res.redirect(`/post/${postCreated._id}`);
+  }
+};
+
+async function createNewPost(post) {
   let postBody = [];
 
-  for (let i = 0; i < req.body.elems.length; i++) {
-    const elem = req.body.elems[i];
+  for (let i = 0; i < post.body.length; i++) {
+    const elem = post.body[i];
 
     if (elem.textType === "image") {
       let arrbuffer = new Uint8Array(JSON.parse(elem.data)).buffer;
@@ -119,19 +132,17 @@ exports.post_new_post = async function (req, res) {
     }
   }
 
-  let postTitle = req.body.title;
-  let categoryId = req.body.categoryId;
+  let postTitle = post.title;
+  let categoryId = post.categoryId;
   let author = await Author.findOne({});
   let authorId = author._id;
 
-  const post = new Post({
+  const postAdd = new Post({
     title: postTitle,
     author: authorId,
     category: categoryId,
     body: postBody,
   });
 
-  const postCreated = await Post.create(post);
-
-  res.redirect(`/post/${postCreated._id}`);
-};
+  return postAdd;
+}

@@ -4,12 +4,13 @@ const add = document.querySelector(".add");
 const addImg = document.querySelector(".add-img");
 
 const postData = document.querySelector(".post-edit");
+const postId = postData.dataset.id;
+
 if (postData) {
   console.log("EXISTS");
   //XHR request to get post details
   // then iterate through its body elements
 
-  const postId = postData.dataset.id;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", `/postinfo/${postId}`, true);
   xhr.send("");
@@ -304,9 +305,10 @@ btnSave.addEventListener("click", function (e) {
   }
 
   let post = {
+    _id: postId,
     title: postTitle,
     categoryId: selectedCategoryId,
-    elems: elems,
+    body: elems,
   };
 
   postJson("/addpost", post);
