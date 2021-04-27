@@ -1,10 +1,4 @@
 body {
-    width: 80%;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Open Sans';
-    color: var(--font-color);
-
     display: grid;
     grid-template-areas: "header header header"
         "side-nav main-content main-content"
@@ -107,13 +101,6 @@ footer .container {
 }
 
 /* END FOOTER */
-
-@media screen and (max-width: 1200px) {
-    body {
-        width: 100%;
-    }
-}
-
 @media screen and (max-width: 920px) {
     body {
         grid-template-areas: "header"

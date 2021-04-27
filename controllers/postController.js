@@ -79,7 +79,7 @@ exports.get_post = async function (req, res) {
   res.render("post", { post: post });
 };
 
-exports.get_post_info = async function (req, res, next) {
+exports.get_post_info = async function (req, res) {
   const postId = req.params.id;
   const post = await Post.findOne({ _id: postId });
   res.send(post);
