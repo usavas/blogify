@@ -90,7 +90,17 @@ exports.post_new_post = async function (req, res) {
   if (post._id) {
     console.log("ID EXISTS: " + post._id);
     //update  the post here
-    const pModel = new Post(post);
+
+    const p = await updatePost(post);
+    console.log(p);
+    const pModel = new Post({
+      _id: p._id,
+      title: p.title,
+      author: p.author,
+      category: p.category,
+      body: p.body,
+    });
+    console.log(pModel);
     pModel.isNew = false;
     const pSaved = await pModel.save();
     res.redirect(`/post/${pSaved._id}`);
@@ -100,6 +110,58 @@ exports.post_new_post = async function (req, res) {
     res.redirect(`/post/${postCreated._id}`);
   }
 };
+
+async function updatePost(post) {
+  let postBody = [];
+
+  for (let i = 0; i < post.body.length; i++) {
+    const elem = post.body[i];
+
+    if (elem.textType === "image") {
+      let arrbuffer = new Uint8Array(JSON.parse(elem.data)).buffer;
+      let buffer = arrayBufferToBuffer(arrbuffer);
+
+      sharp(buffer)
+        .resize({ width: elem.width })
+        .withMetadata()
+        .toFile(__dirname + "/../data/uploads/" + elem.content, (err) => {
+          if (err) {
+            console.log(err);
+          }
+          console.log(`image saved: ${elem.content}`);
+        });
+
+      postBody.push({
+        textType: elem.textType,
+        content: elem.content,
+        width: elem.width,
+      });
+    } else {
+      console.log(elem.textType);
+      postBody.push({
+        textType: elem.textType,
+        content: elem.content,
+      });
+    }
+  }
+
+  let postTitle = post.title;
+  let categoryId = post.categoryId;
+  let author = await Author.findOne({});
+  let authorId = author._id;
+
+  const postAdd = new Post({
+    _id: post._id,
+    title: postTitle,
+    author: authorId,
+    category: categoryId,
+    body: postBody,
+  });
+
+  console.log(postAdd.id);
+
+  return postAdd;
+}
 
 async function createNewPost(post) {
   let postBody = [];
