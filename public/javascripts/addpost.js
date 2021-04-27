@@ -16,21 +16,32 @@ if (postData) {
   xhr.onloadend = function () {
     const post = xhr.response;
     console.log(post);
+    renderPost(post);
   };
-
-  // post.body.forEach((e) => {
-  //   if (e.textType === "img") {
-  //     createImageAdder();
-  //   }
-  // });
 } else {
   console.log("NOT EXISTS");
+}
+
+function renderPost(post) {
+  const postObj = JSON.parse(post);
+  //set title
+  const pageTitle = document.querySelector(".text-h1");
+  pageTitle.value = postObj.title;
+  postObj.body.forEach((e) => {
+    if (e.textType === "image") {
+      createImageAdder(`/${e.content}`);
+    } else {
+      createAdder(e.textType, e.content);
+    }
+  });
 }
 
 add.addEventListener("click", function () {
   createAdder();
 });
-add.click();
+if (!postData) {
+  add.click();
+}
 
 let imgFiles = [];
 addImg.addEventListener("click", function () {
@@ -45,7 +56,7 @@ categoryOptions.addEventListener("change", function () {
   selectedCategoryId = categoryOptions.value;
 });
 
-function createAdder() {
+function createAdder(pTextType, pContent) {
   let adderContainer = document.createElement("div");
   adderContainer.classList.add("rich-text-container");
 
@@ -54,6 +65,9 @@ function createAdder() {
   textarea.setAttribute("rows", "1");
   textarea.setAttribute("autocomplete", "off");
   textarea.setAttribute("placeholder", "Enter your content...");
+  if (pContent) {
+    textarea.value = pContent;
+  }
   adderContainer.appendChild(textarea);
   // eslint-disable-next-line no-undef
   $(function () {
@@ -75,6 +89,9 @@ function createAdder() {
     let type = select.options[select.selectedIndex].text;
     textarea.classList.add("text-" + type);
   });
+  if (pTextType) {
+    select.value = pTextType;
+  }
   adderContainer.appendChild(select);
 
   let delButton = document.createElement("button");
@@ -88,13 +105,17 @@ function createAdder() {
   container.insertBefore(adderContainer, newItem);
 }
 
-function createImageAdder() {
+function createImageAdder(path) {
   let fileId = generateGuid();
 
   let imgContainer = document.createElement("div");
   imgContainer.classList.add("img-container");
 
-  let img = createImage("/images/placeholder-img.png");
+  let imagePath = "/images/placeholder-img.png";
+  if (path) {
+    imagePath = path;
+  }
+  let img = createImage(imagePath);
   imgContainer.appendChild(img);
 
   let overlay = createOverlay(imgContainer, fileId, img);
