@@ -4,33 +4,58 @@ const add = document.querySelector(".add");
 const addImg = document.querySelector(".add-img");
 
 const postData = document.querySelector(".post-edit");
-const postId = postData.dataset.id;
+let elems = [];
+let imgFiles = [];
+let postId;
+let authorId;
 
 if (postData) {
-  console.log("EXISTS");
-  //XHR request to get post details
-  // then iterate through its body elements
-
+  postId = postData.dataset.id;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", `/postinfo/${postId}`, true);
   xhr.send("");
   xhr.onloadend = function () {
     const post = xhr.response;
-    console.log(post);
     renderPost(post);
   };
-} else {
-  console.log("NOT EXISTS");
 }
 
 function renderPost(post) {
   const postObj = JSON.parse(post);
-  //set title
+  authorId = postObj.author;
   const pageTitle = document.querySelector(".text-h1");
   pageTitle.value = postObj.title;
   postObj.body.forEach((e) => {
     if (e.textType === "image") {
-      createImageAdder(`/${e.content}`);
+      // also populate the img array
+      createImageAdder(e);
+      fetch(`/${e.content}`)
+        .then((res) => res.blob())
+        .then((blob) => {
+          let buffReader = new FileReader();
+          buffReader.onloadend = function () {
+            let fileNewPath;
+            let imgWidth;
+
+            let fileId = e.content.substring(0, e.content.indexOf("."));
+            fileNewPath = e.content;
+            imgWidth = getImageSize(e.width);
+
+            let dataString = JSON.stringify(
+              Array.from(new Uint8Array(buffReader.result))
+            );
+
+            imgFiles.push({
+              id: fileId,
+              filePath: fileNewPath,
+              data: dataString,
+              width: imgWidth,
+            });
+
+            console.log("added file: " + fileId);
+          };
+          buffReader.readAsArrayBuffer(blob);
+        });
     } else {
       createAdder(e.textType, e.content);
     }
@@ -44,7 +69,6 @@ if (!postData) {
   add.click();
 }
 
-let imgFiles = [];
 addImg.addEventListener("click", function () {
   createImageAdder();
 });
@@ -106,20 +130,22 @@ function createAdder(pTextType, pContent) {
   container.insertBefore(adderContainer, newItem);
 }
 
-function createImageAdder(path) {
+function createImageAdder(imgContent) {
   let fileId = generateGuid();
+  let imagePath = "/images/placeholder-img.png";
+
+  if (imgContent) {
+    fileId = imgContent.content.substring(0, imgContent.content.indexOf("."));
+    imagePath = `/${imgContent.content}`;
+  }
 
   let imgContainer = document.createElement("div");
   imgContainer.classList.add("img-container");
 
-  let imagePath = "/images/placeholder-img.png";
-  if (path) {
-    imagePath = path;
-  }
-  let img = createImage(imagePath);
-  imgContainer.appendChild(img);
+  let imgNode = createImage(imagePath);
+  imgContainer.appendChild(imgNode);
 
-  let overlay = createOverlay(imgContainer, fileId, img);
+  let overlay = createOverlay(imgContainer, fileId, imgNode);
   imgContainer.appendChild(overlay);
 
   container.insertBefore(imgContainer, newItem);
@@ -132,7 +158,7 @@ function createImage(imagePath) {
   return img;
 }
 
-function createOverlay(imgContainer, fileId, img) {
+function createOverlay(imgContainer, fileId, imgNode) {
   let overlay = document.createElement("div");
   overlay.classList.add("overlay");
 
@@ -143,7 +169,7 @@ function createOverlay(imgContainer, fileId, img) {
   let sizeOptions = createSizeOptions(imgContainer, fileId);
   sizeOptionsContainer.appendChild(sizeOptions);
 
-  let fileInput = createFileInput(img, fileId, sizeOptions);
+  let fileInput = createFileInput(imgNode, fileId, sizeOptions);
   overlay.appendChild(fileInput);
 
   overlay.appendChild(sizeOptionsContainer);
@@ -159,47 +185,65 @@ function createDelButton(imgContainer, fileId) {
     container.removeChild(imgContainer);
     imgFiles = imgFiles.filter((f) => f.id !== fileId);
     console.log("removed the file: " + fileId);
-    console.log(imgFiles);
   });
 
   return delButton;
 }
 
-function createFileInput(img, fileId, sizeOptions) {
+function createFileInput(imgNode, fileId, sizeOptions) {
   let fileInput = document.createElement("input");
   fileInput.type = "file";
   fileInput.classList.add("file-input");
   fileInput.innerText = "Choose file";
   fileInput.accept = "image/*,.pdf";
   fileInput.addEventListener("input", function () {
+    console.log(fileInput.files.length);
+
+    // paint image to the page from input
     let reader = new FileReader();
     reader.onloadend = function (evt) {
-      img.src = evt.target.result;
+      imgNode.src = evt.target.result;
     };
     reader.readAsDataURL(fileInput.files[0]);
 
+    // convert image blob to buffer and save to list
     let buffReader = new FileReader();
     buffReader.onloadend = function () {
+      let fileNewPath;
+      let imgWidth;
+
       let fileExt = getFileExtFromString(fileInput.files[0].name);
-      let fileNewPath = `${fileId}.${fileExt}`;
-      let imgWidth = getImageSize(sizeOptions.value);
+      fileNewPath = `${fileId}.${fileExt}`;
+      imgWidth = getImageSize(sizeOptions.value);
 
       let dataString = JSON.stringify(
         Array.from(new Uint8Array(buffReader.result))
       );
-      console.log(typeof dataString);
 
-      imgFiles.push({
-        id: fileId,
-        filePath: fileNewPath,
-        data: dataString,
-        width: imgWidth,
-      });
+      let found = imgFiles.findIndex((f) => f.id == fileId);
+      if (found > -1) {
+        imgFiles[found] = {
+          id: fileId,
+          filePath: fileNewPath,
+          data: dataString,
+          width: imgWidth,
+        };
+      } else {
+        imgFiles.push({
+          id: fileId,
+          filePath: fileNewPath,
+          data: dataString,
+          width: imgWidth,
+        });
+      }
+
+      console.log(imgFiles);
 
       console.log("added file: " + fileId);
     };
     buffReader.readAsArrayBuffer(fileInput.files[0]);
   });
+
   return fileInput;
 }
 
@@ -265,7 +309,6 @@ let btnSave = document.querySelector(".save");
 let postTitle = "No title";
 btnSave.addEventListener("click", function (e) {
   e.preventDefault();
-  let elems = [];
   let pageHeader = document.querySelector(".header-container .rich-text");
   if (pageHeader.value.trim() !== "") {
     postTitle = pageHeader.value.trim();
@@ -292,7 +335,6 @@ btnSave.addEventListener("click", function (e) {
       node.classList.contains("img-container")
     ) {
       if (imgFiles.length > 0) {
-        console.log("image length: " + imgFiles[imgCounter].data.length);
         elems.push({
           textType: "image",
           content: imgFiles[imgCounter].filePath,
@@ -306,11 +348,13 @@ btnSave.addEventListener("click", function (e) {
 
   let post = {
     _id: postId,
+    author: authorId,
     title: postTitle,
     categoryId: selectedCategoryId,
     body: elems,
   };
 
+  console.log(post);
   postJson("/addpost", post);
 });
 

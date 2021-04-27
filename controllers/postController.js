@@ -73,9 +73,7 @@ exports.post_list = async function (req, res, next) {
 };
 
 exports.get_post = async function (req, res) {
-  console.log(req.params);
   let post = await Post.findById(req.params.id);
-  console.log(post);
   res.render("post", { post: post });
 };
 
@@ -91,6 +89,11 @@ exports.post_new_post = async function (req, res) {
 
   if (post._id) {
     console.log("ID EXISTS: " + post._id);
+    //update  the post here
+    const pModel = new Post(post);
+    pModel.isNew = false;
+    const pSaved = await pModel.save();
+    res.redirect(`/post/${pSaved._id}`);
   } else {
     const postAdd = await createNewPost(post);
     const postCreated = await Post.create(postAdd);
