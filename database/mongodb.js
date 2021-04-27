@@ -34,7 +34,7 @@ function createInitialData(db) {
     }
 
     await Category.deleteMany({});
-    await Category.insertMany([
+    const categories = await Category.insertMany([
       {
         category: "LifeStyle",
         description: "It is about lifestyle",
@@ -54,13 +54,12 @@ function createInitialData(db) {
     ]);
 
     await Author.deleteMany({});
-    await Author.create({
+    const author = await Author.create({
       name: "Jane Herakles",
       email: "savas@blogify.com",
-      passwd: "1234",
+      password: "1234",
     });
 
-    const author = await Author.findOne({});
     await Post.insertMany([
       new Post({
         title: "What a wonderful life",
@@ -82,6 +81,7 @@ function createInitialData(db) {
           },
         ],
         author: author._id,
+        category: categories[0]._id,
       }),
       new Post({
         title: "Minimalism",
@@ -108,6 +108,7 @@ function createInitialData(db) {
           },
         ],
         author: author._id,
+        category: categories[1]._id,
       }),
     ]);
   });
