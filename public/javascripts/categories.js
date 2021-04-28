@@ -1,7 +1,5 @@
-const container = document.querySelector(".main-content .container");
 const btnEdits = document.querySelectorAll(".edit");
 const btnDeletes = document.querySelectorAll(".delete");
-const modal = document.querySelector(".modal");
 const form = document.querySelector(".category-form");
 
 const btnUpdate = document.querySelector(".update");
