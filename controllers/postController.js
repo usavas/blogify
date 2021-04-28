@@ -11,12 +11,16 @@ async function getCategories() {
 }
 
 exports.add_post = async function (req, res) {
-  const categories = await getCategories();
-
-  if (req.params.id) {
-    res.render("addpost", { postId: req.params.id, categories: categories });
+  if (!req.session.authorId) {
+    res.redirect("/auth/login");
   } else {
-    res.render("addpost", { categories: categories });
+    const categories = await getCategories();
+
+    if (req.params.id) {
+      res.render("addpost", { postId: req.params.id, categories: categories });
+    } else {
+      res.render("addpost", { categories: categories });
+    }
   }
 };
 
@@ -31,50 +35,15 @@ exports.delete_post = async function (req, res, next) {
 };
 
 exports.posts = async function (req, res) {
-  const posts = await Post.find()
-    .sort([["date", "descending"]])
-    .populate("author")
-    .populate("category");
-  res.render("posts", { posts: posts });
-};
-
-exports.post_list = async function (req, res, next) {
-  const categories = await getCategories();
-
-  Post.find()
-    .sort([["date", "descending"]])
-    .exec(function (err, posts) {
-      if (err) {
-        return next(err);
-      }
-
-      let excerpt = "No text content";
-      let postExerpts = posts.map(function (p) {
-        let pNodes = p.body.filter((b) => b.textType === "p");
-        if (pNodes.length > 0) {
-          let paragraph = pNodes[0].content;
-          if (paragraph.length >= 360) {
-            excerpt = paragraph.substring(0, 360) + "...";
-          } else {
-            excerpt = paragraph;
-          }
-        }
-
-        return {
-          postId: p._id,
-          title: p.title,
-          postRoute: p.postRoute,
-          excerpt: excerpt,
-          date: p.date,
-        };
-      });
-      res.render("home", { posts: postExerpts, categories: categories });
-    });
-};
-
-exports.get_post = async function (req, res) {
-  let post = await Post.findById(req.params.id);
-  res.render("post", { post: post });
+  if (!req.session.authorId) {
+    res.redirect("/auth/login");
+  } else {
+    const posts = await Post.find()
+      .sort([["date", "descending"]])
+      .populate("author")
+      .populate("category");
+    res.render("posts", { posts: posts });
+  }
 };
 
 exports.get_post_info = async function (req, res) {

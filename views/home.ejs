@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="css/home.css" />
   </head>
   <body>
-    <%-include('partials/header', {activePage: "home"});-%> <%-
-    include('partials/sidebar.ejs'); -%>
+    <%-include('partials/header', {activePage: "home", isLogin: isLogin});-%>
+    <%- include('partials/sidebar.ejs'); -%>
 
     <div class="main-content">
       <div class="container">

@@ -25,12 +25,16 @@ module.exports.addCategory = async function (req, res) {
 };
 
 module.exports.getCategories = async function (req, res, next) {
-  Category.find({}).exec((err, qRes) => {
-    if (err) {
-      next(err);
-    }
-    res.render("categories", { categories: qRes });
-  });
+  if (!req.session.authorId) {
+    res.redirect("/auth/login");
+  } else {
+    Category.find({}).exec((err, qRes) => {
+      if (err) {
+        next(err);
+      }
+      res.render("categories", { categories: qRes });
+    });
+  }
 };
 
 module.exports.deleteCategory = async function (req, res) {

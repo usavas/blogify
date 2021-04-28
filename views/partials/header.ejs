@@ -22,11 +22,11 @@
             <a href="/privacy">privacy</a>
           </li> -->
 
-          <li
+          <!-- <li
             class="<%= (locals.activePage && activePage === 'addpost') ? 'active' : '' %>"
           >
             <a href="/addpost">add post</a>
-          </li>
+          </li> -->
           <li
             class="<%= (locals.activePage && activePage === 'posts') ? 'active' : '' %>"
           >
@@ -37,6 +37,7 @@
           >
             <a href="/categories">categories</a>
           </li>
+          <% if (!isLogin) { %>
           <li
             class="<%= (locals.activePage && activePage === 'register') ? 'active' : '' %>"
           >
@@ -47,6 +48,13 @@
           >
             <a href="/auth/login">author login</a>
           </li>
+          <% } else {%>
+          <li
+            class="<%= (locals.activePage && activePage === 'logout') ? 'active' : '' %>"
+          >
+            <a href="/auth/logout">logout</a>
+          </li>
+          <%}%>
         </ul>
       </div>
     </div>

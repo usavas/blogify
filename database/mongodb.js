@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
-const mongoDB = "mongodb://127.0.0.1/blogify";
 const Category = require("../models/category");
 const Author = require("../models/author");
 const Post = require("../models/post");
 
+const mongoDBConnection = "mongodb://127.0.0.1/blogify";
+
 exports.init = async function () {
-  mongoose.connect(mongoDB, {
+  mongoose.connect(mongoDBConnection, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
