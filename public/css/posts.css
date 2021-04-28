@@ -22,9 +22,25 @@ tr:nth-child(even) {
 .edit-options {
     display: flex;
     gap: 0.6rem;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 tr:hover .edit-options {
     visibility: visible;
+}
+
+.add-post {
+    margin-top: 2rem;
+}
+
+.btn-small {
+    margin-top: .4rem;
+    border: none;
+    outline: none;
+}
+
+.btn-small:hover {
+    opacity: .8;
+    cursor: pointer;
+    text-decoration: underline;
 }

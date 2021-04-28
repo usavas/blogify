@@ -25,10 +25,10 @@
             <%= p.title %>
             <div class="edit-options">
               <form action="/addpost/<%= p._id %>" method="GET">
-                <button type="submit" class="edit">Edit</button>
+                <button type="submit" class="btn-small edit">Edit</button>
               </form>
               <form method="GET" action="/deletepost/<%= p._id %>">
-                <button type="submit" class="delete">Delete</button>
+                <button type="submit" class="btn-small delete">Delete</button>
               </form>
             </div>
           </td>
@@ -37,7 +37,11 @@
           <td><%= p.date.toLocaleString() %></td>
         </tr>
         <% }) %>
+        </form>
       </table>
+      
+      <form class="add-post" method="GET" action="/addpost">
+        <button class="btn" type="submit">ADD NEW POST</button>
     </div>
   </body>
 </html>
