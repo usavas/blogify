@@ -6,9 +6,11 @@ Blog website
 
 ## Tech Stack
 
-Front-end: HTML5, CSS3, and vanilla Javascript, just a little bit of Jquery
+Front-end: HTML5, CSS3, and vanilla Javascript
 
 Back-end framework: Expressjs, MVC pattern with Ejs template engine.
+
+Database: MongoDB
 
 ## Use
 
