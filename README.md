@@ -1,7 +1,5 @@
 # Blogify
 
-## Project Name
-
 Blog website
 
 ## Tech Stack
