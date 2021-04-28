@@ -1,23 +1,43 @@
-const { NotExtended } = require("http-errors");
 const Category = require("../models/category");
 
 module.exports.addCategory = async function (req, res) {
-  let category = new Category({
-    category: req.body.category,
-    description: req.body.description,
-  });
+  const categoryBody = req.body;
 
-  const catResult = await Category.create(category);
-  if (catResult) {
-    return catResult;
+  if (categoryBody._id) {
+    // update and redirect to categories main
+    let category = new Category({
+      _id: categoryBody._id,
+      category: categoryBody.category,
+      description: categoryBody.description,
+    });
+    category.isNew = false;
+    await category.save();
+    res.redirect("/categories");
+  } else {
+    let category = new Category({
+      category: categoryBody.category,
+      description: categoryBody.description,
+    });
+
+    await Category.create(category);
+    res.redirect("/categories");
   }
 };
 
-module.exports.getCategories = async function (req, res) {
-  await Category.find({}).exec((err, qRes) => {
+module.exports.getCategories = async function (req, res, next) {
+  Category.find({}).exec((err, qRes) => {
     if (err) {
-      NotExtended(err);
+      next(err);
     }
     res.render("categories", { categories: qRes });
+  });
+};
+
+module.exports.deleteCategory = async function (req, res) {
+  Category.deleteOne({ _id: req.params.id }).exec((err, qRes) => {
+    if (err) {
+      return err;
+    }
+    res.send(qRes);
   });
 };

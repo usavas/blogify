@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Categories</title>
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/posts.css" />
+    <style>
+      h1,
+      h2,
+      h3,
+      h4 {
+        padding-bottom: 3rem;
+      }
+      .actions {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .btn {
+        background-color: transparent;
+        text-decoration: underline;
+        color: blue;
+        border: none;
+        outline: none;
+      }
+
+      .btn:hover {
+        color: purple;
+        cursor: pointer;
+      }
+
+      .delete {
+        color: red;
+      }
+
+      .modal {
+        margin: 2rem auto;
+        width: 24rem;
+      }
+
+      .update-category {
+        /* visibility: hidden; */
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .category-form input,
+      .add-category input {
+        padding: 0.2rem 0.4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("./partials/header.ejs", {activePage: "categories"}) -%>
+    <div class="main-content">
+      <div class="container">
+        <h1>Categories</h1>
+        <table>
+          <tr>
+            <th>Category</th>
+            <th>Description</th>
+            <th></th>
+          </tr>
+          <% categories.forEach(c => { %>
+          <tr>
+            <td><%= c.category %></td>
+            <td><%= c.description %></td>
+            <td class="actions">
+              <button data-category="<%= JSON.stringify(c) %>" class="btn edit">
+                Edit
+              </button>
+              <button data-category-id="<%= c._id %>" class="btn delete">
+                Delete
+              </button>
+            </td>
+          </tr>
+          <% }) %>
+
+          <tr class="new-category">
+            <td colspan="3">
+              <form class="add-category">
+                <input
+                  type="text"
+                  name="category"
+                  placeholder="category"
+                  id="add-category-name"
+                  required
+                />
+                <input
+                  type="text"
+                  name="description"
+                  placeholder="description"
+                  id="add-category-description"
+                />
+                <input type="submit" value="ADD" id="add-category" />
+              </form>
+            </td>
+          </tr>
+        </table>
+
+        <div class="modal">
+          <form class="update-category">
+            <input id="update-category-name" type="text" name="category" />
+            <input
+              id="update-category-description"
+              type="text"
+              name="description"
+            />
+            <input id="update-category-id" type="hidden" name="id" />
+            <input class="update" type="submit" value="UPDATE" />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="javascripts/categories.js"></script>
+  </body>
+</html>
