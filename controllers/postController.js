@@ -47,7 +47,7 @@ exports.posts = async function (req, res) {
   if (!req.session.authorId) {
     res.redirect("/auth/login");
   } else {
-    const posts = await Post.find()
+    const posts = await Post.find({ author: req.session.authorId })
       .sort([["date", "descending"]])
       .populate("author")
       .populate("category");
