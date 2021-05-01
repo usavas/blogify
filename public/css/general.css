@@ -37,6 +37,10 @@ body {
     color: white;
 }
 
+aside ul li:first-child {
+    margin-bottom: 1.2rem;
+}
+
 @media screen and (max-width: 1200px) {
     body {
         width: 100%;

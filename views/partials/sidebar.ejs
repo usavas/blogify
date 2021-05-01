@@ -3,8 +3,13 @@
     <div class="container">
       <h4>Categories</h4>
       <ul>
+        <li><a href="/">All Blogs</a></li>
         <% for(let i =0; i < categories.length; i++) { %>
-        <li><a href=""><%= categories[i].category %></a></li>
+        <li>
+          <a href="/posts/<%= categories[i]._id %>"
+            ><%= categories[i].category %></a
+          >
+        </li>
         <% }%>
       </ul>
     </div>

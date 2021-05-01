@@ -14,7 +14,14 @@ exports.post_list = async function (req, res, next) {
     isLogin = true;
   }
 
-  Post.find()
+  let params = {};
+  const categoryId = req.params.categoryId;
+
+  if (categoryId) {
+    params.category = categoryId;
+  }
+
+  Post.find(params)
     .sort([["date", "descending"]])
     .exec(function (err, posts) {
       if (err) {
