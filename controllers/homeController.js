@@ -50,6 +50,11 @@ exports.post_list = async function (req, res, next) {
 };
 
 exports.get_post = async function (req, res) {
+  let isLogin = false;
+  if (req.session.authorId) {
+    isLogin = true;
+  }
+
   let post = await Post.findById(req.params.id);
-  res.render("post", { post: post });
+  res.render("post", { post: post, isLogin: isLogin });
 };

@@ -4,6 +4,12 @@ const add = document.querySelector(".add");
 const addImg = document.querySelector(".add-img");
 
 const postData = document.querySelector(".post-edit");
+const authorDataDiv = document.querySelector(".author-id");
+
+function getAuthorId() {
+  return authorDataDiv.dataset.authorId;
+}
+
 let elems = [];
 let imgFiles = [];
 let postId;
@@ -77,7 +83,6 @@ let categoryOptions = document.querySelector(".categories");
 let selectedCategoryId = categoryOptions.value;
 
 categoryOptions.addEventListener("change", function () {
-  console.log(categoryOptions.value);
   selectedCategoryId = categoryOptions.value;
 });
 
@@ -197,8 +202,6 @@ function createFileInput(imgNode, fileId, sizeOptions) {
   fileInput.innerText = "Choose file";
   fileInput.accept = "image/*,.pdf";
   fileInput.addEventListener("input", function () {
-    console.log(fileInput.files.length);
-
     // paint image to the page from input
     let reader = new FileReader();
     reader.onloadend = function (evt) {
@@ -236,8 +239,6 @@ function createFileInput(imgNode, fileId, sizeOptions) {
           width: imgWidth,
         });
       }
-
-      console.log(imgFiles);
 
       console.log("added file: " + fileId);
     };
@@ -346,16 +347,26 @@ btnSave.addEventListener("click", function (e) {
     }
   }
 
-  let post = {
-    _id: postId,
-    author: authorId,
-    title: postTitle,
-    categoryId: selectedCategoryId,
-    body: elems,
-  };
+  let authorIdToPost = authorId ? authorId : getAuthorId();
+  let postToPost;
 
-  console.log(post);
-  postJson("/addpost", post);
+  if (postId) {
+    postToPost = {
+      _id: postId,
+      authorId: authorIdToPost,
+      title: postTitle,
+      categoryId: selectedCategoryId,
+      body: elems,
+    };
+  } else {
+    postToPost = {
+      authorId: authorIdToPost,
+      title: postTitle,
+      categoryId: selectedCategoryId,
+      body: elems,
+    };
+  }
+  postJson("/addpost", postToPost);
 });
 
 function postJson(path, jsonData) {

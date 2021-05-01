@@ -1,6 +1,5 @@
 const Post = require("../models/post");
 const CategoryService = require("../services/categoryService");
-const Author = require("../models/author");
 
 const sharp = require("sharp");
 const arrayBufferToBuffer = require("arraybuffer-to-buffer");
@@ -15,11 +14,21 @@ exports.add_post = async function (req, res) {
     res.redirect("/auth/login");
   } else {
     const categories = await getCategories();
+    const authorId = req.session.authorId;
 
     if (req.params.id) {
-      res.render("addpost", { postId: req.params.id, categories: categories });
+      res.render("addpost", {
+        postId: req.params.id,
+        isLogin: true,
+        authorId: authorId,
+        categories: categories,
+      });
     } else {
-      res.render("addpost", { categories: categories });
+      res.render("addpost", {
+        categories: categories,
+        authorId: authorId,
+        isLogin: true,
+      });
     }
   }
 };
@@ -49,19 +58,14 @@ exports.posts = async function (req, res) {
 exports.get_post_info = async function (req, res) {
   const postId = req.params.id;
   const post = await Post.findOne({ _id: postId });
-  res.send(post);
+  res.status(200).send(post);
 };
 
 exports.post_new_post = async function (req, res) {
   const post = req.body;
-  console.log(post._id);
 
   if (post._id) {
-    console.log("ID EXISTS: " + post._id);
-    //update  the post here
-
     const p = await updatePost(post);
-    console.log(p);
     const pModel = new Post({
       _id: p._id,
       title: p.title,
@@ -69,7 +73,6 @@ exports.post_new_post = async function (req, res) {
       category: p.category,
       body: p.body,
     });
-    console.log(pModel);
     pModel.isNew = false;
     const pSaved = await pModel.save();
     res.redirect(`/post/${pSaved._id}`);
@@ -97,7 +100,6 @@ async function updatePost(post) {
           if (err) {
             console.log(err);
           }
-          console.log(`image saved: ${elem.content}`);
         });
 
       postBody.push({
@@ -106,7 +108,6 @@ async function updatePost(post) {
         width: elem.width,
       });
     } else {
-      console.log(elem.textType);
       postBody.push({
         textType: elem.textType,
         content: elem.content,
@@ -116,8 +117,7 @@ async function updatePost(post) {
 
   let postTitle = post.title;
   let categoryId = post.categoryId;
-  let author = await Author.findOne({});
-  let authorId = author._id;
+  let authorId = post.authorId;
 
   const postAdd = new Post({
     _id: post._id,
@@ -126,8 +126,6 @@ async function updatePost(post) {
     category: categoryId,
     body: postBody,
   });
-
-  console.log(postAdd.id);
 
   return postAdd;
 }
@@ -149,7 +147,6 @@ async function createNewPost(post) {
           if (err) {
             console.log(err);
           }
-          console.log(`image saved: ${elem.content}`);
         });
 
       postBody.push({
@@ -158,7 +155,6 @@ async function createNewPost(post) {
         width: elem.width,
       });
     } else {
-      console.log(elem.textType);
       postBody.push({
         textType: elem.textType,
         content: elem.content,
@@ -168,8 +164,7 @@ async function createNewPost(post) {
 
   let postTitle = post.title;
   let categoryId = post.categoryId;
-  let author = await Author.findOne({});
-  let authorId = author._id;
+  let authorId = post.authorId;
 
   const postAdd = new Post({
     title: postTitle,
