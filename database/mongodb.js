@@ -3,7 +3,7 @@ const Category = require("../models/category");
 const Author = require("../models/author");
 const Post = require("../models/post");
 
-const mongoDBConnection = "mongodb://127.0.0.1/blogify";
+const mongoDBConnection = process.env.MONGODB_CONNECTION_STRING;
 
 exports.init = async function () {
   mongoose.connect(mongoDBConnection, {

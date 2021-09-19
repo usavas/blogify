@@ -209,9 +209,12 @@ function createFileInput(imgNode, fileId, sizeOptions) {
     };
     reader.readAsDataURL(fileInput.files[0]);
 
+    console.log(fileInput.files[0].size);
+
     // convert image blob to buffer and save to list
     let buffReader = new FileReader();
     buffReader.onloadend = function () {
+      //  convert image to buffer array (data string)
       let fileNewPath;
       let imgWidth;
 
@@ -223,6 +226,7 @@ function createFileInput(imgNode, fileId, sizeOptions) {
         Array.from(new Uint8Array(buffReader.result))
       );
 
+      // add or update the respective image file
       let found = imgFiles.findIndex((f) => f.id == fileId);
       if (found > -1) {
         imgFiles[found] = {
@@ -241,11 +245,30 @@ function createFileInput(imgNode, fileId, sizeOptions) {
       }
 
       console.log("added file: " + fileId);
+      console.log(fileInput.files[0].size);
     };
     buffReader.readAsArrayBuffer(fileInput.files[0]);
   });
 
   return fileInput;
+}
+
+function writeResizedImage(imgNode) {
+  // https://stackoverflow.com/questions/10333971/html5-pre-resize-images-before-uploading
+
+  // draw the image to canvas
+  var canvas = document.createElement("canvas");
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(imgNode, 0, 0);
+
+  // resize the canvas
+  canvas.width = 400;
+  canvas.height = 300;
+  ctx.drawImage(imgNode, 0, 0, 400, 300);
+
+  // write the blob result to image node
+  const dataUrl = canvas.toDataURL("image/png");
+  imgNode.src = dataUrl;
 }
 
 function createSizeOptionsContainer() {
@@ -400,3 +423,44 @@ function getFileExtFromString(filename) {
     filename
   );
 }
+
+// function resizeImage(fileInput, desiredWith, desiredHeight) {
+//   var filesToUpload = fileInput.files;
+//   var file = filesToUpload[0];
+
+//   // Create a file reader
+//   var reader = new FileReader();
+//   // Set the image once loaded into file reader
+//   reader.onload = function (e) {
+//     img.src = e.target.result;
+
+//     var canvas = document.createElement("canvas");
+//     var ctx = canvas.getContext("2d");
+//     ctx.drawImage(img, 0, 0);
+
+//     var MAX_WIDTH = desiredWith;
+//     var MAX_HEIGHT = desiredHeight;
+//     var width = img.width;
+//     var height = img.height;
+
+//     if (width > height) {
+//       if (width > MAX_WIDTH) {
+//         height *= MAX_WIDTH / width;
+//         width = MAX_WIDTH;
+//       }
+//     } else {
+//       if (height > MAX_HEIGHT) {
+//         width *= MAX_HEIGHT / height;
+//         height = MAX_HEIGHT;
+//       }
+//     }
+//     canvas.width = width;
+//     canvas.height = height;
+//     ctx.drawImage(img, 0, 0, width, height);
+
+//     var dataurl = canvas.toBlob(function(blob) => )
+//     return dataurl;
+//   };
+//   // Load files into file reader
+//   reader.readAsDataURL(file);
+// }
