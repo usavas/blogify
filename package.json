@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --trace-warnings ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon --trace-warnings ./bin/www"
   },
   "dependencies": {
     "arraybuffer-to-buffer": "0.0.7",
@@ -25,5 +26,8 @@
   },
   "devDependencies": {
     "eslint": "^7.25.0"
+  },
+  "engines": {
+    "node": "14.15.5"
   }
 }
