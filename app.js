@@ -22,7 +22,7 @@ mongo.init();
 
 app.use(
   session({
-    secret: "userSession",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
