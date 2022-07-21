@@ -1,48 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Pacifico&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Pacifico&display=swap");
 
 :root {
-    --font-color: #3c3c3c;
-    --background-color: #DDD;
-    font-size: 14px;
+  --font-color: #3c3c3c;
+  --background-color: #ddd;
+  font-size: 14px;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    width: 80%;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Open Sans';
-    color: var(--font-color);
+  width: 100%;
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  font-family: "Open Sans";
+  color: var(--font-color);
 }
 
 .small-font {
-    font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 .large-font {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 .btn {
-    border: none;
-    border-radius: 0.2rem;
-    padding: .6rem;
-    background-color: gray;
-    color: white;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.6rem;
+  background-color: gray;
+  color: white;
 }
 
 aside ul li:first-child {
-    margin-bottom: 1.2rem;
+  margin-bottom: 1.2rem;
 }
 
 @media screen and (max-width: 1200px) {
-    body {
-        width: 100%;
-    }
+  body {
+    width: 100%;
+  }
 }
